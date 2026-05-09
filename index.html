@@ -44,17 +44,35 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:18px 0;
+      padding:12px 0;
+      gap:20px;
     }
 
-    .logo h1{
+    /* Logo area with image + company name */
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo-img{
+      height:52px;
+      width:auto;
+      border-radius:12px;
+      background:#ffffff10;
+      padding:4px;
+      transition:transform 0.2s ease;
+    }
+    .logo-img:hover{
+      transform:scale(1.02);
+    }
+    .logo-text h1{
       color:#D4AF37;
-      font-size:28px;
+      font-size:24px;
       letter-spacing:-0.5px;
+      line-height:1.2;
     }
-
-    .logo p{
-      font-size:13px;
+    .logo-text p{
+      font-size:11px;
       color:#ddd;
     }
 
@@ -215,7 +233,7 @@
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:50px;
-      align-items:center;
+      align-items:start;
     }
 
     .about h3{
@@ -244,6 +262,42 @@
       font-size:20px;
       color:#082567;
       margin-bottom:8px;
+    }
+
+    /* Founder card with image */
+    .founder-card{
+      background:white;
+      border-radius:28px;
+      padding:24px;
+      margin-bottom:20px;
+      text-align:center;
+      box-shadow:0 12px 22px rgba(0,0,0,0.08);
+      transition:0.2s;
+    }
+    .founder-img{
+      width:140px;
+      height:140px;
+      object-fit:cover;
+      border-radius:50%;
+      border:4px solid #D4AF37;
+      margin-bottom:18px;
+      background:#f0f2f5;
+      box-shadow:0 6px 12px rgba(0,0,0,0.1);
+    }
+    .founder-card h4{
+      font-size:24px;
+      color:#082567;
+      margin-bottom:6px;
+    }
+    .founder-card p{
+      color:#4b5563;
+      margin-bottom:6px;
+      font-size:15px;
+    }
+    .founder-title{
+      font-weight:600;
+      color:#D4AF37;
+      letter-spacing:0.5px;
     }
 
     /* Services grid */
@@ -568,6 +622,38 @@
       .navbar{
         flex-wrap:wrap;
       }
+      .logo-img{
+        height:44px;
+      }
+      .logo-text h1{
+        font-size:20px;
+      }
+      .logo-text p{
+        font-size:9px;
+      }
+      .founder-img{
+        width:110px;
+        height:110px;
+      }
+    }
+    /* mobile nav adjustments */
+    @media(max-width:900px){
+      nav.mobile-visible{
+        display:flex;
+        flex-direction:column;
+        position:absolute;
+        top:80px;
+        left:0;
+        width:100%;
+        background-color:#082567;
+        padding:20px;
+        gap:15px;
+        z-index:999;
+        box-shadow:0 15px 20px rgba(0,0,0,0.2);
+      }
+      nav:not(.mobile-visible){
+        display:none;
+      }
     }
   </style>
 </head>
@@ -576,8 +662,12 @@
   <header>
     <div class="container navbar">
       <div class="logo">
-        <h1>Tax2Free Consultancy</h1>
-        <p>Your Trust, Our Commitment, Your Growth</p>
+        <!-- Website Logo from GitHub -->
+        <img class="logo-img" src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/logo.png?raw=true" alt="Tax2Free Consultancy Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60x60?text=T2F'; this.style.background='#D4AF37';">
+        <div class="logo-text">
+          <h1>Tax2Free Consultancy</h1>
+          <p>Your Trust, Our Commitment, Your Growth</p>
+        </div>
       </div>
       <div class="menu-toggle" id="menuToggle">☰</div>
       <nav id="navMenu">
@@ -613,7 +703,7 @@
     </div>
   </section>
 
-  <!-- About -->
+  <!-- About - with Founder Image integration -->
   <section class="about" id="about">
     <div class="container">
       <div class="section-title"><h2>About Us</h2><div class="underline"></div></div>
@@ -622,13 +712,20 @@
           <h3>Tax2Free Consultancy</h3>
           <p>Tax2Free Consultancy is a premium consultancy platform offering tax, legal, registration and documentation services across India.</p>
           <p>We help customers with GST registration, ITR filing, company registration, trademark registration, passport services and more.</p>
-          <div class="card"><h4>Founder</h4><p>Gulshan Kumar</p></div>
+          <!-- Founder card with image displayed prominently -->
+          <div class="founder-card">
+            <img class="founder-img" src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/founder.png?raw=true" alt="Founder Gulshan Kumar" onerror="this.onerror=null; this.src='https://via.placeholder.com/140x140?text=Founder';">
+            <h4>Gulshan Kumar</h4>
+            <p class="founder-title">Founder & CEO</p>
+            <p>Visionary leader with 12+ years of experience in taxation, legal advisory and business consultancy. Committed to empowering entrepreneurs with seamless compliance and growth solutions.</p>
+          </div>
           <div class="card"><h4>Main Office</h4><p>Wazirabad, Sector 52, Gurgaon, Haryana, 122003</p></div>
         </div>
         <div>
           <div class="card"><h4>Trusted Consultancy</h4><p>Reliable professional consultancy services.</p></div>
           <div class="card"><h4>Experienced Experts</h4><p>CA and legal professionals with industry expertise.</p></div>
           <div class="card"><h4>Secure Process</h4><p>Safe document handling and secure payment system.</p></div>
+          <div class="card"><h4>Our Mission</h4><p>Making tax & legal services accessible, transparent and affordable for every Indian business and individual.</p></div>
         </div>
       </div>
     </div>
@@ -696,10 +793,10 @@
 
   <footer>
     <div class="container footer-grid">
-      <div><h3 style="color:#D4AF37;">Tax2Free Consultancy</h3><p>Your Trust, Our Commitment, Your Growth</p></div>
-      <div><h4>Quick Links</h4><ul><li id="footerHome">Home</li><li id="footerAbout">About</li><li id="footerServices">Services</li><li id="footerReviews">Reviews</li></ul></div>
-      <div><h4>Services</h4><ul><li>GST Registration</li><li>ITR Filing</li><li>Passport Service</li><li>Trademark Registration</li></ul></div>
-      <div><h4>Contact</h4><p>Gurgaon, Haryana</p><p>Khagaria, Bihar</p></div>
+        <div><h3 style="color:#D4AF37;">Tax2Free Consultancy</h3><p>Your Trust, Our Commitment, Your Growth</p></div>
+        <div><h4>Quick Links</h4><ul><li id="footerHome">Home</li><li id="footerAbout">About</li><li id="footerServices">Services</li><li id="footerReviews">Reviews</li></ul></div>
+        <div><h4>Services</h4><ul><li>GST Registration</li><li>ITR Filing</li><li>Passport Service</li><li>Trademark Registration</li></ul></div>
+        <div><h4>Contact</h4><p>Gurgaon, Haryana</p><p>Khagaria, Bihar</p></div>
     </div>
     <div class="copyright">© 2026 Tax2Free Consultancy. All Rights Reserved.</div>
   </footer>
@@ -799,7 +896,6 @@
         showMessage('📞 Please enter valid 10-digit mobile number', true);
         return;
       }
-      // on success
       showMessage(`✅ Thank you ${name}! Our expert will contact you within 24 hours.`);
       document.getElementById('fullName').value = '';
       document.getElementById('emailId').value = '';
@@ -832,7 +928,7 @@
 
     // WhatsApp button functionality
     document.getElementById('whatsappBtn').addEventListener('click', () => {
-      window.open('https://wa.me/9197XXXXX24?text=Hello%20Tax2Free%2C%20I%20need%20consultancy%20for%20tax%2Flegal%20services.', '_blank');
+      window.open('https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy%20for%20tax%2Flegal%20services.', '_blank');
       showMessage('📱 Opening WhatsApp chat with our support team.');
     });
 
@@ -853,43 +949,45 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetEl = document.getElementById(targetId);
         if(targetEl) targetEl.scrollIntoView({behavior:'smooth'});
+        // close mobile menu after click
+        if(window.innerWidth <= 900 && navMenu.classList.contains('mobile-visible')){
+          navMenu.classList.remove('mobile-visible');
+        }
       });
     });
 
-    // Mobile menu toggle (show/hide nav)
+    // Mobile menu toggle (clean implementation)
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     if(menuToggle){
       menuToggle.addEventListener('click', () => {
-        if(navMenu.style.display === 'flex') navMenu.style.display = 'none';
-        else {
-          navMenu.style.display = 'flex';
-          navMenu.style.flexDirection = 'column';
-          navMenu.style.position = 'absolute';
-          navMenu.style.top = '80px';
-          navMenu.style.left = '0';
-          navMenu.style.width = '100%';
-          navMenu.style.backgroundColor = '#082567';
-          navMenu.style.padding = '20px';
-          navMenu.style.gap = '15px';
-          navMenu.style.zIndex = '999';
+        if(navMenu.classList.contains('mobile-visible')){
+          navMenu.classList.remove('mobile-visible');
+        } else {
+          navMenu.classList.add('mobile-visible');
         }
       });
       window.addEventListener('resize', () => {
-        if(window.innerWidth > 900) navMenu.style.display = 'flex';
-        else if(navMenu.style.display !== 'flex') navMenu.style.display = 'none';
+        if(window.innerWidth > 900) {
+          navMenu.classList.remove('mobile-visible');
+          navMenu.style.display = ''; 
+        } else {
+          navMenu.style.display = '';
+        }
       });
+      if(window.innerWidth <= 900){
+        navMenu.classList.remove('mobile-visible');
+      }
     }
 
-    // attach event listeners for dynamic service buttons after initial rendering
+    // attach event listeners for dynamic service buttons
     attachServiceButtons();
 
-    // handling for potential additional dynamic events (safe)
+    // observer for dynamic content just in case
     const observer = new MutationObserver(() => attachServiceButtons());
     observer.observe(servicesContainer, { childList: true, subtree: true });
 
-    // also talk to expert modals for any additional
-    console.log('All features active: contact form validation, toast, service apply, whatsapp, dashboard, responsive menu');
+    console.log('Tax2Free website with official logo and founder image integrated');
   </script>
 </body>
 </html>
