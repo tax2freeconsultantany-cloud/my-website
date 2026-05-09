@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tax2Free Consultancy</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#fff;
+      color:#111827;
+      scroll-behavior:smooth;
+    }
+
+    a{
+      text-decoration:none;
+      color:white;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    /* Navbar */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:#082567;
+      color:white;
+      box-shadow:0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .navbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 0;
+    }
+
+    .logo h1{
+      color:#D4AF37;
+      font-size:28px;
+    }
+
+    .logo p{
+      font-size:14px;
+      color:#ddd;
+    }
+
+    nav{
+      display:flex;
+      gap:25px;
+    }
+
+    nav a:hover{
+      color:#D4AF37;
+    }
+
+    /* Hero */
+    .hero{
+      background:linear-gradient(to right,#082567,#0c3b9d);
+      color:white;
+      padding:100px 0;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .badge{
+      display:inline-block;
+      background:#D4AF37;
+      color:black;
+      padding:10px 18px;
+      border-radius:30px;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
+
+    .hero h2{
+      font-size:52px;
+      margin-bottom:20px;
+      line-height:1.2;
+    }
+
+    .hero p{
+      font-size:18px;
+      color:#ddd;
+      margin-bottom:30px;
+    }
+
+    .btn-group{
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:14px 28px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .btn-primary{
+      background:#D4AF37;
+      color:black;
+    }
+
+    .btn-primary:hover{
+      transform:scale(1.05);
+    }
+
+    .btn-outline{
+      border:2px solid white;
+      background:transparent;
+      color:white;
+    }
+
+    .btn-outline:hover{
+      background:white;
+      color:#082567;
+    }
+
+    /* Stats */
+    .stats-box{
+      background:rgba(255,255,255,0.1);
+      padding:30px;
+      border-radius:25px;
+      backdrop-filter:blur(10px);
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .stat{
+      background:white;
+      color:black;
+      text-align:center;
+      padding:25px;
+      border-radius:20px;
+    }
+
+    .stat h3{
+      color:#082567;
+      font-size:35px;
+      margin-bottom:10px;
+    }
+
+    /* Section */
+    section{
+      padding:90px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:50px;
+    }
+
+    .section-title h2{
+      font-size:42px;
+      color:#082567;
+    }
+
+    .underline{
+      width:120px;
+      height:5px;
+      background:#D4AF37;
+      margin:15px auto;
+      border-radius:20px;
+    }
+
+    /* About */
+    .about{
+      background:#f8fafc;
+    }
+
+    .about-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .about h3{
+      font-size:32px;
+      margin-bottom:20px;
+    }
+
+    .about p{
+      font-size:18px;
+      color:#555;
+      margin-bottom:20px;
+      line-height:1.7;
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:20px;
+      margin-bottom:15px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    /* Services */
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:30px;
+    }
+
+    .service-card{
+      background:white;
+      border-radius:25px;
+      padding:30px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+      transition:0.4s;
+      border:1px solid #eee;
+    }
+
+    .service-card:hover{
+      transform:translateY(-10px);
+    }
+
+    .service-icon{
+      width:70px;
+      height:70px;
+      background:#082567;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:20px;
+      font-size:30px;
+      margin-bottom:20px;
+    }
+
+    .service-card h3{
+      font-size:28px;
+      color:#082567;
+      margin-bottom:15px;
+    }
+
+    .service-card p{
+      color:#666;
+      margin-bottom:20px;
+    }
+
+    .price{
+      color:#D4AF37;
+      font-size:28px;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
+
+    .service-btn{
+      width:100%;
+      background:#082567;
+      color:white;
+      border:none;
+      padding:14px;
+      border-radius:12px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .service-btn:hover{
+      background:#0c3b9d;
+    }
+
+    /* Experts */
+    .experts{
+      background:#f8fafc;
+    }
+
+    .expert-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:25px;
+    }
+
+    .expert-card{
+      background:white;
+      padding:30px;
+      border-radius:25px;
+      text-align:center;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .expert-avatar{
+      width:100px;
+      height:100px;
+      background:#082567;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      margin:auto;
+      font-size:40px;
+      margin-bottom:20px;
+    }
+
+    /* Reviews */
+    .review-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:30px;
+    }
+
+    .review-card{
+      background:white;
+      padding:35px;
+      border-radius:25px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .stars{
+      color:#D4AF37;
+      font-size:28px;
+      margin-bottom:20px;
+    }
+
+    /* Dashboard */
+    .dashboard{
+      background:#082567;
+      color:white;
+    }
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:30px;
+    }
+
+    .dashboard-card{
+      background:white;
+      color:black;
+      padding:35px;
+      border-radius:25px;
+    }
+
+    .dashboard-card h3{
+      color:#082567;
+      margin:15px 0;
+      font-size:28px;
+    }
+
+    /* Contact */
+    .contact{
+      background:#f8fafc;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+    }
+
+    .contact-form,
+    .office-box{
+      border-radius:25px;
+      padding:40px;
+    }
+
+    .contact-form{
+      background:white;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .office-box{
+      background:#082567;
+      color:white;
+    }
+
+    .contact-form input,
+    .contact-form textarea{
+      width:100%;
+      padding:16px;
+      border:1px solid #ddd;
+      border-radius:12px;
+      margin-bottom:20px;
+      font-size:16px;
+    }
+
+    .submit-btn{
+      width:100%;
+      padding:16px;
+      background:#082567;
+      color:white;
+      border:none;
+      border-radius:12px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .submit-btn:hover{
+      background:#0c3b9d;
+    }
+
+    /* Footer */
+    footer{
+      background:#04163d;
+      color:white;
+      padding:60px 0 20px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:30px;
+    }
+
+    footer h3,
+    footer h4{
+      margin-bottom:20px;
+    }
+
+    footer ul{
+      list-style:none;
+    }
+
+    footer li{
+      margin-bottom:10px;
+      color:#ccc;
+    }
+
+    .copyright{
+      text-align:center;
+      border-top:1px solid #334155;
+      margin-top:40px;
+      padding-top:20px;
+      color:#aaa;
+    }
+
+    /* WhatsApp */
+    .whatsapp{
+      position:fixed;
+      right:25px;
+      bottom:25px;
+      background:#25D366;
+      color:white;
+      border:none;
+      padding:16px 22px;
+      border-radius:50px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    /* Responsive */
+    @media(max-width:900px){
+
+      .hero-grid,
+      .about-grid,
+      .contact-grid{
+        grid-template-columns:1fr;
+      }
+
+      nav{
+        display:none;
+      }
+
+      .hero h2{
+        font-size:40px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="container navbar">
+      <div class="logo">
+        <h1>Tax2Free Consultancy</h1>
+        <p>Your Trust, Our Commitment, Your Growth</p>
+      </div>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+
+      <div>
+        <div class="badge">
+          Trusted Consultancy Platform
+        </div>
+
+        <h2>
+          Professional Tax & Legal Consultancy Services
+        </h2>
+
+        <p>
+          GST Registration, ITR Filing, Passport Services,
+          Trademark, Company Registration and complete legal consultancy solutions.
+        </p>
+
+        <div class="btn-group">
+          <button class="btn btn-primary">
+            Apply Service
+          </button>
+
+          <button class="btn btn-outline">
+            Talk to Expert
+          </button>
+        </div>
+      </div>
+
+      <div class="stats-box">
+        <div class="stats-grid">
+
+          <div class="stat">
+            <h3>20+</h3>
+            <p>Professional Services</p>
+          </div>
+
+          <div class="stat">
+            <h3>5000+</h3>
+            <p>Happy Clients</p>
+          </div>
+
+          <div class="stat">
+            <h3>24/7</h3>
+            <p>Customer Support</p>
+          </div>
+
+          <div class="stat">
+            <h3>100%</h3>
+            <p>Secure Process</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>About Us</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="about-grid">
+
+        <div>
+          <h3>Tax2Free Consultancy</h3>
+
+          <p>
+            Tax2Free Consultancy is a premium consultancy platform offering
+            tax, legal, registration and documentation services across India.
+          </p>
+
+          <p>
+            We help customers with GST registration, ITR filing, company
+            registration, trademark registration, passport services and more.
+          </p>
+
+          <div class="card">
+            <h4>Founder</h4>
+            <p>Gulshan Kumar</p>
+          </div>
+
+          <div class="card">
+            <h4>Main Office</h4>
+            <p>Wazirabad, Sector 52, Gurgaon, Haryana, 122003</p>
+          </div>
+        </div>
+
+        <div>
+
+          <div class="card">
+            <h4>Trusted Consultancy</h4>
+            <p>Reliable professional consultancy services.</p>
+          </div>
+
+          <div class="card">
+            <h4>Experienced Experts</h4>
+            <p>CA and legal professionals with industry expertise.</p>
+          </div>
+
+          <div class="card">
+            <h4>Secure Process</h4>
+            <p>Safe document handling and secure payment system.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="services-grid" id="servicesContainer"></div>
+
+    </div>
+  </section>
+
+  <!-- Expert Team -->
+  <section class="experts">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Our Expert Team</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="expert-grid" id="expertContainer"></div>
+
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section id="reviews">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Client Reviews</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="review-grid" id="reviewContainer"></div>
+
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="dashboard">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Multi User Dashboard System</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+          <div>📊</div>
+          <h3>Customer Panel</h3>
+          <p>Secure login system with advanced dashboard features.</p>
+        </div>
+
+        <div class="dashboard-card">
+          <div>📊</div>
+          <h3>Agent Panel</h3>
+          <p>Secure login system with advanced dashboard features.</p>
+        </div>
+
+        <div class="dashboard-card">
+          <div>📊</div>
+          <h3>Partner Panel</h3>
+          <p>Secure login system with advanced dashboard features.</p>
+        </div>
+
+        <div class="dashboard-card">
+          <div>📊</div>
+          <h3>Admin Panel</h3>
+          <p>Secure login system with advanced dashboard features.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Contact Us</h2>
+        <div class="underline"></div>
+      </div>
+
+      <div class="contact-grid">
+
+        <div class="contact-form">
+
+          <h3>Send Message</h3>
+
+          <input type="text" placeholder="Full Name">
+          <input type="email" placeholder="Email Address">
+          <input type="text" placeholder="Mobile Number">
+
+          <textarea rows="5" placeholder="Your Message"></textarea>
+
+          <button class="submit-btn">
+            Submit Inquiry
+          </button>
+
+        </div>
+
+        <div class="office-box">
+
+          <h3>Office Details</h3>
+
+          <br>
+
+          <h4>Main Office</h4>
+          <p>Wazirabad, Sector 52, Gurgaon, Haryana, 122003</p>
+
+          <br>
+
+          <h4>Branch Office</h4>
+          <p>
+            Harwari Chowk, Maheshkhunt,
+            District Khagaria, Bihar, 851213
+          </p>
+
+          <br>
+
+          <h4>Contact</h4>
+          <p>97XXXXX24</p>
+          <p>7295XX065</p>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="container footer-grid">
+
+      <div>
+        <h3 style="color:#D4AF37;">
+          Tax2Free Consultancy
+        </h3>
+
+        <p>
+          Your Trust, Our Commitment, Your Growth
+        </p>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Services</li>
+          <li>Reviews</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Services</h4>
+
+        <ul>
+          <li>GST Registration</li>
+          <li>ITR Filing</li>
+          <li>Passport Service</li>
+          <li>Trademark Registration</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+
+        <p>Gurgaon, Haryana</p>
+        <p>Khagaria, Bihar</p>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 Tax2Free Consultancy. All Rights Reserved.
+    </div>
+
+  </footer>
+
+  <!-- WhatsApp -->
+  <button class="whatsapp">
+    WhatsApp
+  </button>
+
+  <script>
+
+    const services = [
+      {
+        title: 'Passport Service',
+        price: '₹1000',
+        description: 'Professional passport assistance service.',
+      },
+      {
+        title: 'GST Registration',
+        price: '₹2999',
+        description: 'Quick GST registration for businesses.',
+      },
+      {
+        title: 'ITR Filing',
+        price: '₹1500',
+        description: 'Income tax return filing by experts.',
+      },
+      {
+        title: 'Trademark Registration',
+        price: '₹6500',
+        description: 'Protect your business brand legally.',
+      },
+      {
+        title: 'Company Registration',
+        price: '₹17000',
+        description: 'Private Limited, LLP & OPC registration.',
+      },
+      {
+        title: 'FSSAI Licence',
+        price: 'Starting ₹1999',
+        description: 'Food licence registration support.',
+      },
+    ];
+
+    const reviews = [
+      {
+        name: 'Rahul Sharma',
+        city: 'Delhi',
+        review:
+          'Very professional consultancy service. GST registration completed quickly.',
+      },
+      {
+        name: 'Priya Verma',
+        city: 'Patna',
+        review:
+          'Excellent support for passport application and document verification.',
+      },
+      {
+        name: 'Ankit Kumar',
+        city: 'Gurgaon',
+        review:
+          'Highly recommended for ITR filing and MSME registration services.',
+      },
+    ];
+
+    const experts = [
+      'CA Asutosh',
+      'CA Rahul Sinha',
+      'Advocate Lalit Singh',
+      'Advocate Reshmi Mishra',
+      'Divya (Tax Auditor)',
+    ];
+
+    // Services
+    const servicesContainer =
+      document.getElementById('servicesContainer');
+
+    services.forEach(service => {
+
+      servicesContainer.innerHTML += `
+        <div class="service-card">
+
+          <div class="service-icon">⭐</div>
+
+          <h3>${service.title}</h3>
+
+          <p>${service.description}</p>
+
+          <div class="price">${service.price}</div>
+
+          <button class="service-btn">
+            Apply Now
+          </button>
+
+        </div>
+      `;
+    });
+
+    // Reviews
+    const reviewContainer =
+      document.getElementById('reviewContainer');
+
+    reviews.forEach(review => {
+
+      reviewContainer.innerHTML += `
+        <div class="review-card">
+
+          <div class="stars">★★★★★</div>
+
+          <p>"${review.review}"</p>
+
+          <br>
+
+          <h4>${review.name}</h4>
+
+          <small>${review.city}</small>
+
+        </div>
+      `;
+    });
+
+    // Experts
+    const expertContainer =
+      document.getElementById('expertContainer');
+
+    experts.forEach(expert => {
+
+      expertContainer.innerHTML += `
+        <div class="expert-card">
+
+          <div class="expert-avatar">👤</div>
+
+          <h3>${expert}</h3>
+
+          <p>Consultancy Expert</p>
+
+        </div>
+      `;
+    });
+
+  </script>
+
+</body>
+</html>
