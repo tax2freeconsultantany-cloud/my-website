@@ -683,43 +683,10 @@
   }
   
   // Experts data
-  // ---------- Experts with CA Asutosh Verma PHOTO ----------
+  const expertNames = ["CA Asutosh", "CA Rahul Sinha", "Adv. Lalit Singh", "Adv. Reshmi Mishra", "Divya (Tax Auditor)", "Manash Gogoi (Tax Expert)"];
   const expertsContainer = document.getElementById("expertsList");
-  
-  // clear
-  expertsContainer.innerHTML = "";
-  
-  // 1) CA Asutosh Verma with dedicated photograph from GitHub
-  const caAsutoshCard = document.createElement("div");
-  caAsutoshCard.className = "expert-card";
-  caAsutoshCard.innerHTML = `
-    <img class="expert-photo" src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true" alt="CA Asutosh Verma" onerror="this.src='https://placehold.co/120x120?text=CA+AV'">
-    <h3>CA Asutosh Verma</h3>
-    <div class="expert-title">Senior Tax Consultant & Auditor</div>
-    <p style="margin-top: 10px; font-size:14px;">GST, Income Tax, Corporate Compliances</p>
-  `;
-  expertsContainer.appendChild(caAsutoshCard);
-  
-  // rest of expert team
-  const otherExperts = [
-    { name: "CA Rahul Sinha", title: "GST & Indirect Tax Expert", role: "Partner" },
-    { name: "Adv. Lalit Singh", title: "Legal & IPR Attorney", role: "High Court" },
-    { name: "Adv. Reshmi Mishra", title: "Corporate Legal Advisor", role: "Documentation specialist" },
-    { name: "Divya (Tax Auditor)", title: "Audit & Assurance", role: "Senior Auditor" },
-    { name: "Manash Gogoi", title: "Tax & Compliance Expert", role: "Advisor" },
-    { name: "Neha Arora", title: "IPR & Trademark Attorney", role: "Registered TM Agent" }
-  ];
-  
-  otherExperts.forEach(exp => {
-    const card = document.createElement("div");
-    card.className = "expert-card";
-    card.innerHTML = `
-      <div class="expert-avatar">👩‍⚖️</div>
-      <h3>${exp.name}</h3>
-      <div class="expert-title">${exp.title}</div>
-      <p style="font-size:13px; margin-top:8px;">${exp.role}</p>
-    `;
-    expertsContainer.appendChild(card);
+  expertNames.forEach(ex => {
+    expertsContainer.innerHTML += `<div class="expert-card"><div class="expert-avatar">👤</div><h3>${ex}</h3><p>Senior Consultant</p></div>`;
   });
   
   // Reviews
