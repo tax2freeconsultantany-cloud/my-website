@@ -2,11 +2,11 @@
 //  UNIVERSAL PWA SW (GitHub + Netlify)
 // =============================
 
-const CACHE_NAME = "beu-pwa-v12";
+const CACHE_NAME = "my-website-pwa-v12";
 
 // 🔥 AUTO detect base path
 const BASE = self.location.hostname.includes("github.io")
-  ? "/BEU-Syllabus-App"
+  ? "/my-website"
   : "";
 
 // App shell
