@@ -301,25 +301,41 @@
       background: #1f418f;
     }
 
-    /* Experts */
+    /* Experts section - enhanced with images */
     .experts-section {
       background: #f8fafd;
       padding: 80px 0;
     }
     .expert-flex {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 30px;
     }
     .expert-card {
       background: white;
-      padding: 28px;
+      padding: 28px 20px;
       border-radius: 32px;
       text-align: center;
+      transition: transform 0.2s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .expert-card:hover {
+      transform: translateY(-6px);
+    }
+    .expert-avatar-img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      border: 3px solid #D4AF37;
+      background: #f0f4ff;
+      display: block;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     }
     .expert-avatar {
-      width: 90px;
-      height: 90px;
+      width: 110px;
+      height: 110px;
       background: #08256715;
       color: #082567;
       font-size: 48px;
@@ -327,7 +343,16 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      margin: 0 auto 16px;
+      margin: 0 auto 18px;
+    }
+    .expert-card h3 {
+      margin-top: 10px;
+      color: #082567;
+      font-size: 1.3rem;
+    }
+    .expert-card p {
+      color: #4b5563;
+      margin-top: 6px;
     }
 
     /* Reviews */
@@ -521,7 +546,7 @@
     </div>
     <div class="stats-box">
       <div class="stats-grid">
-        <div class="stat"><h3>20+</h3><p>Core Services</p></div>
+        <div class="stat"><h3>24+</h3><p>Core Services</p></div>
         <div class="stat"><h3>5200+</h3><p>Happy Clients</p></div>
         <div class="stat"><h3>24/7</h3><p>Support</p></div>
         <div class="stat"><h3>100%</h3><p>Transparent</p></div>
@@ -553,7 +578,7 @@
   </div>
 </section>
 
-<!-- FULL SERVICE LIST (38+ services) – comprehensive extended list from image & beyond -->
+<!-- FULL SERVICE LIST (24+ services) -->
 <section class="services-extended" id="fullServiceList">
   <div class="container">
     <div class="section-title"><h2>Our Services List</h2><div class="underline"></div></div>
@@ -561,7 +586,7 @@
   </div>
 </section>
 
-<!-- Experts Team -->
+<!-- Experts Team with CA Asutosh Verma Image -->
 <section class="experts-section">
   <div class="container">
     <div class="section-title"><h2>Our Legal & Tax Experts</h2><div class="underline"></div></div>
@@ -629,7 +654,7 @@
 <div id="globalToast" style="position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:2000;"></div>
 
 <script>
-  // ---------- COMPREHENSIVE SERVICE LIST (as per image + more) ----------
+  // ---------- Comprehensive service list (expanded & premium) ----------
   const fullServices = [
     { name: "Passport Service", price: "₹1,299*", desc: "End-to-end assistance for new/renewal, tatkaal & documentation.", icon: "🛂" },
     { name: "MSME / Udyam Registration", price: "₹1,499", desc: "Udyam / Udyog Aadhaar Registration – govt certificate.", icon: "📜" },
@@ -673,7 +698,6 @@
       `;
       servicesGrid.appendChild(card);
     });
-    // attach events to all apply buttons dynamically
     document.querySelectorAll('.apply-srv-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const serviceName = btn.getAttribute('data-service');
@@ -682,14 +706,42 @@
     });
   }
   
-  // Experts data
-  const expertNames = ["CA Asutosh", "CA Rahul Sinha", "Adv. Lalit Singh", "Adv. Reshmi Mishra", "Divya (Tax Auditor)", "Manash Gogoi (Tax Expert)"];
-  const expertsContainer = document.getElementById("expertsList");
-  expertNames.forEach(ex => {
-    expertsContainer.innerHTML += `<div class="expert-card"><div class="expert-avatar">👤</div><h3>${ex}</h3><p>Senior Consultant</p></div>`;
-  });
+  // ---------- EXPERT SECTION WITH CA ASUTOSH VERMA IMAGE (added specific image) ----------
+  // Experts data: name, role, and specific image for Asutosh Verma, others with placeholder avatar fallback
+  const expertsDetailed = [
+    { name: "CA Asutosh Verma", role: "Senior Tax Consultant & Auditor",<p style="margin-top: 10px; font-size:14px;">GST, Income Tax, Corporate Compliances</p> imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true", useImage: true },
+    { name: "CA Rahul Sinha", role: "Tax Consultant & Auditor", imageUrl: "", useImage: false },
+    { name: "Adv. Lalit Singh", role: "Legal Counsel (IPR/Corporate)", imageUrl: "", useImage: false },
+    { name: "Adv. Reshmi Mishra", role: "Legal & Documentation Head", imageUrl: "", useImage: false },
+    { name: "Divya (Tax Auditor)", role: "Senior Tax Specialist", imageUrl: "", useImage: false },
+    { name: "Manash Gogoi", role: "GST & Compliance Expert", imageUrl: "", useImage: false }
+  ];
   
-  // Reviews
+  const expertsContainer = document.getElementById("expertsList");
+  function renderExperts() {
+    expertsContainer.innerHTML = "";
+    expertsDetailed.forEach(ex => {
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "expert-card";
+      // if specific image exists for asutosh, display image; else show emoji avatar
+      if (ex.useImage && ex.imageUrl) {
+        cardDiv.innerHTML = `
+          <img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.onerror=null; this.src='https://placehold.co/110x110?text=CA'; this.classList.add('expert-avatar-fallback');">
+          <h3>${ex.name}</h3>
+          <p>${ex.role}</p>
+        `;
+      } else {
+        cardDiv.innerHTML = `
+          <div class="expert-avatar">👤</div>
+          <h3>${ex.name}</h3>
+          <p>${ex.role}</p>
+        `;
+      }
+      expertsContainer.appendChild(cardDiv);
+    });
+  }
+  
+  // Reviews Data
   const reviewsData = [
     { name: "Ritu Mehta", city: "Gurgaon", review: "Seamless GST registration & return filing. Tax2Free team is highly professional.", stars: 5 },
     { name: "Amit Bansal", city: "Delhi", review: "Got my IEC and trademark registered effortlessly. Truly a one-stop solution!", stars: 5 },
@@ -711,7 +763,7 @@
       toastDiv = d;
     }
     toastDiv.innerHTML = `<div style="background:${isError ? '#b91c1c' : '#082567'}; color:white; padding:12px 28px; border-radius:60px; font-weight:500; box-shadow:0 8px 16px rgba(0,0,0,0.2);">${msg}</div>`;
-    setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3000);
+    setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3200);
   }
   
   // Contact form validation
@@ -743,7 +795,7 @@
   // Buttons interactions
   document.getElementById("exploreServicesBtn")?.addEventListener("click", () => {
     document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" });
-    showToastMessage("✨ Browse our 20+ specialized services below!");
+    showToastMessage("✨ Browse our 24+ specialized services below!");
   });
   document.getElementById("contactExpertBtn")?.addEventListener("click", () => {
     document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
@@ -785,7 +837,9 @@
     });
   });
   
+  // initializers
   renderAllServices();
+  renderExperts();   // includes CA Asutosh Verma image from GitHub URL
 </script>
 </body>
 </html>
