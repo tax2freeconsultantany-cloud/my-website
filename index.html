@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0066ff">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- 🔥 UNIVERSAL SERVICE WORKER -->
+    <script>
+    const BASE = location.hostname.includes("github.io")
+      ? "/my-website"
+      : "";
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register(`${BASE}/service-worker.js`)
+          .then(registration => {
+            console.log("✅ SW Registered");
+
+            registration.onupdatefound = () => {
+              const newWorker = registration.installing;
+
+              newWorker.onstatechange = () => {
+                if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                  
+                  // 🔔 Update Popup
+                  if (confirm("🚀 New version available! Update now?")) {
+                    newWorker.postMessage("skipWaiting");
+                  }
+                }
+              };
+            };
+          })
+          .catch(err => console.log("❌ SW Error:", err));
+      });
+
+      // Auto reload after update
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        window.location.reload();
+      });
+    }
+    </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tax2Free Consultancy | Complete Service List & Legal Experts</title>
