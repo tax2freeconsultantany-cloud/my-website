@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0066ff">
-    <link rel="apple-touch-icon" href="icon-192.png">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0066ff">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-    <!-- 🔥 UNIVERSAL SERVICE WORKER -->
-    <script>
-    const BASE = location.hostname.includes("github.io")
-      ? "/my-website"
-      : "";
+  <!-- 🔥 UNIVERSAL SERVICE WORKER -->
+  <script>
+    const BASE = location.hostname.includes("github.io") ? "/my-website" : "";
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register(`${BASE}/service-worker.js`)
           .then(registration => {
             console.log("✅ SW Registered");
-
             registration.onupdatefound = () => {
               const newWorker = registration.installing;
-
               newWorker.onstatechange = () => {
                 if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-                  
-                  // 🔔 Update Popup
                   if (confirm("🚀 New version available! Update now?")) {
                     newWorker.postMessage("skipWaiting");
                   }
@@ -34,13 +28,11 @@
           })
           .catch(err => console.log("❌ SW Error:", err));
       });
-
-      // Auto reload after update
       navigator.serviceWorker.addEventListener("controllerchange", () => {
         window.location.reload();
       });
     }
-    </script>
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tax2Free Consultancy | Complete Service List & Legal Experts</title>
@@ -148,6 +140,25 @@
       color: white;
     }
 
+    /* ===== BANNER SECTION (NEW) ===== */
+    .hero-banner {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      background: #021433; /* fallback */
+    }
+    .hero-banner img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    /* optional subtle zoom on hover (non-intrusive) */
+    .hero-banner img:hover {
+      transform: scale(1.01);
+    }
+
     /* ===== BUTTONS ===== */
     .btn {
       padding: 12px 28px;
@@ -176,7 +187,7 @@
       color: #082567;
     }
 
-    /* HERO */
+    /* HERO SECTION (original CTA zone) */
     .hero {
       background: linear-gradient(125deg, #021433, #0f3ba8);
       color: white;
@@ -547,6 +558,10 @@
       .hero h2 {
         font-size: 34px;
       }
+      .hero-banner img {
+        min-height: 180px;
+        object-fit: cover;
+      }
     }
   </style>
 </head>
@@ -572,7 +587,17 @@
   </div>
 </header>
 
-<!-- Hero Section -->
+<!-- ========== NEW WEBSITE BANNER (full width image) ========== -->
+<div class="hero-banner">
+  <img 
+    src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true" 
+    alt="Tax2Free Consultancy Banner - Tax, Legal, Compliance Experts" 
+    loading="eager"
+    onerror="this.onerror=null; this.src='https://placehold.co/1920x700/082567/D4AF37?text=Tax2Free+Premium+Services';"
+  >
+</div>
+
+<!-- Hero Section (original CTA + stats remains) -->
 <section class="hero" id="home">
   <div class="container hero-grid">
     <div>
@@ -747,7 +772,6 @@
   }
   
   // ---------- EXPERT SECTION WITH CA ASUTOSH VERMA IMAGE (added specific image) ----------
-  // Experts data: name, role, and specific image for Asutosh Verma, others with placeholder avatar fallback
   const expertsDetailed = [
     { name: "CA Asutosh Verma", role: "Senior Tax Consultant & Auditor", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true", useImage: true },
     { name: "CA Rahul Sinha", role: "GST & Indirect Tax Expert", imageUrl: "", useImage: false },
@@ -764,7 +788,6 @@
     expertsDetailed.forEach(ex => {
       const cardDiv = document.createElement("div");
       cardDiv.className = "expert-card";
-      // if specific image exists for asutosh, display image; else show emoji avatar
       if (ex.useImage && ex.imageUrl) {
         cardDiv.innerHTML = `
           <img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.onerror=null; this.src='https://placehold.co/110x110?text=CA'; this.classList.add('expert-avatar-fallback');">
@@ -790,6 +813,7 @@
     { name: "Neha Gupta", city: "Noida", review: "ITR filing done in 2 days with maximum refund. Great experience!", stars: 5 }
   ];
   const reviewSection = document.getElementById("reviewList");
+  reviewSection.innerHTML = "";
   reviewsData.forEach(r => {
     reviewSection.innerHTML += `<div class="review-card"><div class="stars">★★★★★</div><p>“${r.review}”</p><br/><h4>${r.name}</h4><small>${r.city}</small></div>`;
   });
@@ -880,7 +904,7 @@
   
   // initializers
   renderAllServices();
-  renderExperts();   // includes CA Asutosh Verma image from GitHub URL
+  renderExperts();
 </script>
 </body>
 </html>
