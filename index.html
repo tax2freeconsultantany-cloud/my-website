@@ -34,7 +34,7 @@
     }
   </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Tax2Free Consultancy | Complete Service List & Legal Experts</title>
 
   <style>
@@ -140,23 +140,49 @@
       color: white;
     }
 
-    /* ===== BANNER SECTION (NEW) ===== */
+    /* ===== BANNER SECTION - FIXED: NO CROP, PERFECT FIT ON ALL DEVICES ===== */
     .hero-banner {
       width: 100%;
+      background: #021433;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
-      line-height: 0;
-      background: #021433; /* fallback */
     }
+    .hero-banner picture,
     .hero-banner img {
       width: 100%;
-      height: auto;
-      object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
     }
-    /* optional subtle zoom on hover (non-intrusive) */
-    .hero-banner img:hover {
-      transform: scale(1.01);
+    /* Responsive image with object-fit cover but without cropping edges on phones */
+    .banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;  /* 🔥 KEY FIX: never crops, keeps full image visible */
+      max-height: 70vh;     /* optional: prevents too tall on desktop, keeps balanced */
+      background: #021433;
+    }
+    /* For very small devices, ensure no horizontal overflow */
+    @media (max-width: 768px) {
+      .banner-image {
+        object-fit: contain;
+        width: 100%;
+        height: auto;
+        max-height: 45vh;   /* pleasant height on mobile, full width without crop */
+      }
+      .hero-banner {
+        background: #021433;
+        min-height: auto;
+      }
+    }
+    /* laptop/desktop keep full width but not cropped */
+    @media (min-width: 1024px) {
+      .banner-image {
+        max-height: 550px;
+        object-fit: contain;
+        width: 100%;
+      }
     }
 
     /* ===== BUTTONS ===== */
@@ -558,10 +584,6 @@
       .hero h2 {
         font-size: 34px;
       }
-      .hero-banner img {
-        min-height: 180px;
-        object-fit: cover;
-      }
     }
   </style>
 </head>
@@ -587,14 +609,21 @@
   </div>
 </header>
 
-<!-- ========== NEW WEBSITE BANNER (full width image) ========== -->
+<!-- ========== BANNER SECTION - FULLY RESPONSIVE, NO CROP (FIXED) ========== -->
 <div class="hero-banner">
-  <img 
-    src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true" 
-    alt="Tax2Free Consultancy Banner - Tax, Legal, Compliance Experts" 
-    loading="eager"
-    onerror="this.onerror=null; this.src='https://placehold.co/1920x700/082567/D4AF37?text=Tax2Free+Premium+Services';"
-  >
+  <picture>
+    <!-- For high-res desktops, use same image with contain style -->
+    <source media="(min-width: 1200px)" srcset="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true">
+    <source media="(min-width: 768px)" srcset="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true">
+    <!-- Mobile: same banner but image will never crop due to CSS object-fit: contain -->
+    <img 
+      class="banner-image"
+      src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true" 
+      alt="Tax2Free Consultancy Banner - Tax, Legal, Compliance Experts" 
+      loading="eager"
+      onerror="this.onerror=null; this.src='https://placehold.co/1920x700/082567/D4AF37?text=Tax2Free+Premium+Services';"
+    >
+  </picture>
 </div>
 
 <!-- Hero Section (original CTA + stats remains) -->
@@ -719,7 +748,7 @@
 <div id="globalToast" style="position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:2000;"></div>
 
 <script>
-  // ---------- Comprehensive service list (expanded & premium) ----------
+  // ---------- Comprehensive service list ----------
   const fullServices = [
     { name: "Passport Service", price: "₹1,299*", desc: "End-to-end assistance for new/renewal, tatkaal & documentation.", icon: "🛂" },
     { name: "MSME / Udyam Registration", price: "₹1,499", desc: "Udyam / Udyog Aadhaar Registration – govt certificate.", icon: "📜" },
@@ -747,7 +776,6 @@
     { name: "Digital Signature (DSC)", price: "₹1,399", desc: "Class 2/3 DSC for e-tendering, ROC filing & ITR.", icon: "🔑" }
   ];
   
-  // render all services in grid
   const servicesGrid = document.getElementById("completeServicesGrid");
   function renderAllServices() {
     servicesGrid.innerHTML = "";
@@ -771,7 +799,7 @@
     });
   }
   
-  // ---------- EXPERT SECTION WITH CA ASUTOSH VERMA IMAGE (added specific image) ----------
+  // Experts with images (CA Asutosh Verma & others)
   const expertsDetailed = [
     { name: "CA Asutosh Verma", role: "Senior Tax Consultant & Auditor", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true", useImage: true },
     { name: "Adv. Anand Srivastava", role: "Legal & Documentation Head", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Anand%20Srivastava%20(Advocate).png?raw=true", useImage: true },
@@ -787,16 +815,12 @@
       cardDiv.className = "expert-card";
       if (ex.useImage && ex.imageUrl) {
         cardDiv.innerHTML = `
-          <img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.onerror=null; this.src='https://placehold.co/110x110?text=CA'; this.classList.add('expert-avatar-fallback');">
+          <img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.onerror=null; this.src='https://placehold.co/110x110?text=Expert';">
           <h3>${ex.name}</h3>
           <p>${ex.role}</p>
         `;
       } else {
-        cardDiv.innerHTML = `
-          <div class="expert-avatar">👤</div>
-          <h3>${ex.name}</h3>
-          <p>${ex.role}</p>
-        `;
+        cardDiv.innerHTML = `<div class="expert-avatar">👤</div><h3>${ex.name}</h3><p>${ex.role}</p>`;
       }
       expertsContainer.appendChild(cardDiv);
     });
@@ -815,7 +839,6 @@
     reviewSection.innerHTML += `<div class="review-card"><div class="stars">★★★★★</div><p>“${r.review}”</p><br/><h4>${r.name}</h4><small>${r.city}</small></div>`;
   });
   
-  // Toast message helper
   function showToastMessage(msg, isError = false) {
     let toastDiv = document.getElementById("globalToast");
     if(!toastDiv){
@@ -828,7 +851,6 @@
     setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3200);
   }
   
-  // Contact form validation
   document.getElementById("submitInquiry")?.addEventListener("click", () => {
     const name = document.getElementById("fullName").value.trim();
     const email = document.getElementById("emailId").value.trim();
@@ -854,7 +876,6 @@
     document.getElementById("msgContent").value = "";
   });
   
-  // Buttons interactions
   document.getElementById("exploreServicesBtn")?.addEventListener("click", () => {
     document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" });
     showToastMessage("✨ Browse our 24+ specialized services below!");
@@ -864,18 +885,15 @@
     showToastMessage("📞 Fill the form or call us directly for immediate expert advice.");
   });
   
-  // WhatsApp button
   document.getElementById("whatsappBtn")?.addEventListener("click", () => {
     window.open("https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy%20for%20tax%2Flegal%20services.", "_blank");
     showToastMessage("📱 Starting WhatsApp chat with our support team.");
   });
   
-  // Footer navigation
   document.getElementById("footerHome")?.addEventListener("click", () => document.getElementById("home").scrollIntoView({ behavior: "smooth" }));
   document.getElementById("footerServices")?.addEventListener("click", () => document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" }));
   document.getElementById("footerContact")?.addEventListener("click", () => document.getElementById("contact").scrollIntoView({ behavior: "smooth" }));
   
-  // Mobile menu toggle
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
   if(menuToggle) {
@@ -889,7 +907,6 @@
     });
   }
   
-  // smooth nav clicks
   document.querySelectorAll("nav a").forEach(anchor => {
     anchor.addEventListener("click", function(e) {
       e.preventDefault();
@@ -899,7 +916,6 @@
     });
   });
   
-  // initializers
   renderAllServices();
   renderExperts();
 </script>
