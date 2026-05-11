@@ -162,7 +162,7 @@
       color: white;
     }
 
-    /* ===== BANNER SECTION - FIXED: NO CROP, PERFECT FIT ON ALL DEVICES ===== */
+    /* ===== BANNER SECTION ===== */
     .hero-banner {
       width: 100%;
       background: #021433;
@@ -176,29 +176,22 @@
       width: 100%;
       display: block;
     }
-    /* Responsive image with object-fit cover but without cropping edges on phones */
     .banner-image {
       width: 100%;
       height: auto;
       display: block;
-      object-fit: contain;  /* 🔥 KEY FIX: never crops, keeps full image visible */
-      max-height: 70vh;     /* optional: prevents too tall on desktop, keeps balanced */
+      object-fit: contain;
+      max-height: 70vh;
       background: #021433;
     }
-    /* For very small devices, ensure no horizontal overflow */
     @media (max-width: 768px) {
       .banner-image {
         object-fit: contain;
         width: 100%;
         height: auto;
-        max-height: 45vh;   /* pleasant height on mobile, full width without crop */
-      }
-      .hero-banner {
-        background: #021433;
-        min-height: auto;
+        max-height: 45vh;
       }
     }
-    /* laptop/desktop keep full width but not cropped */
     @media (min-width: 1024px) {
       .banner-image {
         max-height: 550px;
@@ -235,7 +228,7 @@
       color: #082567;
     }
 
-    /* HERO SECTION (original CTA zone) */
+    /* HERO SECTION */
     .hero {
       background: linear-gradient(125deg, #021433, #0f3ba8);
       color: white;
@@ -336,7 +329,7 @@
       box-shadow: 0 6px 14px rgba(0,0,0,0.03);
     }
 
-    /* SERVICES GRID - EXTENDED */
+    /* SERVICES GRID */
     .services-extended {
       padding: 80px 0;
     }
@@ -352,6 +345,7 @@
       transition: all 0.25s ease;
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
       border: 1px solid #eef2ff;
+      cursor: pointer;
     }
     .service-tile:hover {
       transform: translateY(-6px);
@@ -400,7 +394,130 @@
       background: #1f418f;
     }
 
-    /* Experts section - enhanced with images */
+    /* ===== POPUP MODAL STYLES (Hidden by default) ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-container {
+      background: white;
+      border-radius: 2rem;
+      width: 90%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-container {
+      transform: scale(1);
+    }
+    .modal-header {
+      background: linear-gradient(135deg, #082567, #0f3ba8);
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 2rem 2rem 0 0;
+    }
+    .modal-header h3 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .close-modal {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .close-modal:hover {
+      background: rgba(255,255,255,0.4);
+    }
+    .modal-body {
+      padding: 2rem;
+    }
+    .input-group-modal {
+      margin-bottom: 1.2rem;
+    }
+    .input-group-modal label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
+    }
+    .input-group-modal input, .input-group-modal select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-group-modal input:focus, .input-group-modal select:focus {
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+    .modal-submit-btn {
+      background: #D4AF37;
+      color: #082567;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.25s;
+    }
+    .modal-submit-btn:hover {
+      background: #c3a22e;
+    }
+    .service-preview-modal {
+      background: #f1f5f9;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 560px) {
+      .modal-body {
+        padding: 1.2rem;
+      }
+    }
+
+    /* Experts section */
     .experts-section {
       background: #f8fafd;
       padding: 80px 0;
@@ -428,30 +545,7 @@
       border-radius: 50%;
       margin: 0 auto 18px;
       border: 3px solid #D4AF37;
-      background: #f0f4ff;
       display: block;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-    }
-    .expert-avatar {
-      width: 110px;
-      height: 110px;
-      background: #08256715;
-      color: #082567;
-      font-size: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      margin: 0 auto 18px;
-    }
-    .expert-card h3 {
-      margin-top: 10px;
-      color: #082567;
-      font-size: 1.3rem;
-    }
-    .expert-card p {
-      color: #4b5563;
-      margin-top: 6px;
     }
 
     /* Reviews */
@@ -471,28 +565,6 @@
       color: #D4AF37;
       font-size: 26px;
       margin-bottom: 16px;
-    }
-
-    /* Dashboard */
-    .dashboard {
-      background: #082567;
-      color: white;
-      padding: 80px 0;
-    }
-    .dashboard .section-title h2 {
-      color: white;
-    }
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 32px;
-    }
-    .dashboard-card {
-      background: white;
-      color: #082567;
-      padding: 32px;
-      border-radius: 28px;
-      text-align: center;
     }
 
     /* Contact */
@@ -577,7 +649,7 @@
       padding: 12px 28px;
       border-radius: 60px;
       font-weight: 500;
-      z-index: 1200;
+      z-index: 2001;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
     @media (max-width: 900px) {
@@ -627,29 +699,20 @@
       <a href="#fullServiceList">Services</a>
       <a href="#reviews">Reviews</a>
       <a href="#contact">Contact</a>
-      <a href="#login">Login</a>
     </nav>
   </div>
 </header>
 
-<!-- ========== BANNER SECTION - FULLY RESPONSIVE, NO CROP (FIXED) ========== -->
+<!-- BANNER SECTION -->
 <div class="hero-banner">
   <picture>
-    <!-- For high-res desktops, use same image with contain style -->
     <source media="(min-width: 1200px)" srcset="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true">
     <source media="(min-width: 768px)" srcset="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true">
-    <!-- Mobile: same banner but image will never crop due to CSS object-fit: contain -->
-    <img 
-      class="banner-image"
-      src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true" 
-      alt="Tax2Free Consultancy Banner - Tax, Legal, Compliance Experts" 
-      loading="eager"
-      onerror="this.onerror=null; this.src='https://placehold.co/1920x700/082567/D4AF37?text=Tax2Free+Premium+Services';"
-    >
+    <img class="banner-image" src="https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/tax2free_website_banner_1920x700.jpg?raw=true" alt="Tax2Free Consultancy Banner" loading="eager">
   </picture>
 </div>
 
-<!-- Hero Section (original CTA + stats remains) -->
+<!-- Hero Section -->
 <section class="hero" id="home">
   <div class="container hero-grid">
     <div>
@@ -672,7 +735,7 @@
   </div>
 </section>
 
-<!-- About + Founder -->
+<!-- About Section -->
 <section class="about" id="about">
   <div class="container">
     <div class="section-title"><h2>About Us</h2><div class="underline"></div></div>
@@ -688,14 +751,13 @@
       </div>
       <div>
         <div class="info-card"><strong>⭐ Trusted by 6000+</strong><br/>Professional tax & registration experts.</div>
-        <div class="info-card"><strong>📜 Complete Legal Suite</strong><br/>From MSME, IEC to IPR, Cyber cell complaints & more.</div>
-        <div class="info-card"><strong>🎯 Mission</strong><br/>Affordable, transparent, and secure legal & tax services for every Indian.</div>
+        <div class="info-card"><strong>📜 Complete Legal Suite</strong><br/>From MSME, IEC to IPR, Cyber complaints & more.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FULL SERVICE LIST (24+ services) -->
+<!-- FULL SERVICE LIST SECTION -->
 <section class="services-extended" id="fullServiceList">
   <div class="container">
     <div class="section-title"><h2>Our Services List</h2><div class="underline"></div></div>
@@ -703,7 +765,7 @@
   </div>
 </section>
 
-<!-- Experts Team with CA Asutosh Verma Image -->
+<!-- Experts Team Section -->
 <section class="experts-section">
   <div class="container">
     <div class="section-title"><h2>Our Legal & Tax Experts</h2><div class="underline"></div></div>
@@ -713,13 +775,13 @@
 
 <!-- Client Reviews -->
 <section id="reviews">
-<div class="container">
+  <div class="container">
     <div class="section-title"><h2>Client Reviews</h2><div class="underline"></div></div>
     <div class="review-grid" id="reviewList"></div>
   </div>
 </section>
    
-<!-- Contact -->
+<!-- Contact Section -->
 <section class="contact" id="contact">
   <div class="container">
     <div class="section-title"><h2>Request a Callback</h2><div class="underline"></div></div>
@@ -727,9 +789,9 @@
       <div class="contact-form">
         <h3>Send Inquiry</h3>
         <br>
-        <input type="text" id="fullName" placeholder="Full Name">
-        <input type="email" id="emailId" placeholder="Email ID">
-        <input type="tel" id="mobileNo" placeholder="Mobile Number">
+        <input type="text" id="fullNameContact" placeholder="Full Name">
+        <input type="email" id="emailIdContact" placeholder="Email ID">
+        <input type="tel" id="mobileNoContact" placeholder="Mobile Number">
         <textarea rows="4" id="msgContent" placeholder="Service required / Message"></textarea>
         <button class="submit-btn" id="submitInquiry">Submit →</button>
       </div>
@@ -738,7 +800,7 @@
         <p><strong>📍 Gurgaon Office:</strong> Wazirabad, Sector 52, Gurgaon, Haryana, 122003</p><br/>
         <p><strong>📍 Bihar Office:</strong> Harwari Chowk, Maheshkhunt, Khagaria, Bihar - 851213</p><br/>
         <p><strong>📱 +91 9717611513</strong><br/><strong>📱 +91 7295860655</strong></p>
-        <p style="margin-top: 20px;">✉️ tax2freeconsultancy@gmail.com</p>
+        <p>✉️ tax2freeconsultancy@gmail.com</p>
       </div>
     </div>
   </div>
@@ -746,19 +808,55 @@
 
 <footer>
   <div class="container footer-grid">
-    <div><h3 style="color:#D4AF37;">Tax2Free Consultancy</h3><p>Your Trust, Our Commitment, Your Growth</p></div>
+    <div><h3 style="color:#D4AF37;">Tax2Free Consultancy</h3><p>Your Trust, Our Commitment</p></div>
     <div><h4>Quick Links</h4><ul style="list-style:none;"><li id="footerHome" style="cursor:pointer;">Home</li><li id="footerServices" style="cursor:pointer;">Services</li><li id="footerContact" style="cursor:pointer;">Contact</li></ul></div>
     <div><h4>Core Services</h4><ul style="list-style:none;"><li>GST / ITR</li><li>Trademark / Company</li><li>Passport / IEC</li><li>Legal Documentation</li></ul></div>
-    <div><h4>Assistance</h4><p>24/7 Expert Support</p><p>Secure Filing</p></div>
+    <div><h4>Assistance</h4><p>24/7 Expert Support</p></div>
   </div>
   <div class="copyright" style="text-align:center; margin-top:40px;">© 2026 Tax2Free Consultancy. All Rights Reserved.</div>
 </footer>
 
 <button class="whatsapp" id="whatsappBtn">💬 WhatsApp Support</button>
-<div id="globalToast" style="position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:2000;"></div>
+<div id="globalToast" style="position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:2002;"></div>
+
+<!-- ========== POPUP MODAL (HIDDEN SERVICE REQUEST FORM) ========== -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3>📋 Quick Service Request</h3>
+      <button class="close-modal" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="popupServiceForm">
+        <div class="input-group-modal">
+          <label>🧑‍💼 Full Name *</label>
+          <input type="text" id="popupFullName" placeholder="Enter your full name" required>
+        </div>
+        <div class="input-group-modal">
+          <label>📞 Mobile Number *</label>
+          <input type="tel" id="popupMobile" placeholder="10-digit mobile number" maxlength="10" required>
+        </div>
+        <div class="input-group-modal">
+          <label>✉️ Email ID *</label>
+          <input type="email" id="popupEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="input-group-modal">
+          <label>📌 Select Service *</label>
+          <select id="popupServiceSelect" required>
+            <option value="" disabled selected>— Select a service —</option>
+          </select>
+        </div>
+        <div class="service-preview-modal" id="popupPreview">
+          💡 Select a service to see price & details
+        </div>
+        <button type="submit" class="modal-submit-btn">✨ Submit Request →</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <script>
-  // ---------- Comprehensive service list ----------
+  // Comprehensive service list
   const fullServices = [
     { name: "Passport Service", price: "₹1,299*", desc: "End-to-end assistance for new/renewal, tatkaal & documentation.", icon: "🛂" },
     { name: "MSME / Udyam Registration", price: "₹1,499", desc: "Udyam / Udyog Aadhaar Registration – govt certificate.", icon: "📜" },
@@ -786,6 +884,7 @@
     { name: "Digital Signature (DSC)", price: "₹1,399", desc: "Class 2/3 DSC for e-tendering, ROC filing & ITR.", icon: "🔑" }
   ];
   
+  // Render services grid
   const servicesGrid = document.getElementById("completeServicesGrid");
   function renderAllServices() {
     servicesGrid.innerHTML = "";
@@ -797,58 +896,108 @@
         <h3>${srv.name}</h3>
         <div class="service-price">${srv.price}</div>
         <div class="service-desc">${srv.desc}</div>
-        <button class="apply-srv-btn" data-service="${srv.name}">Apply Now →</button>
+        <button class="apply-srv-btn" data-service='${JSON.stringify(srv)}'>Apply Now →</button>
       `;
       servicesGrid.appendChild(card);
     });
+    // Attach click handlers to all Apply Now buttons
     document.querySelectorAll('.apply-srv-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const serviceName = btn.getAttribute('data-service');
-        showToastMessage(`📌 Application started for "${serviceName}". Our expert will reach you soon!`);
+        e.stopPropagation();
+        const serviceData = JSON.parse(btn.getAttribute('data-service'));
+        openModalWithService(serviceData);
       });
     });
   }
   
-  // Experts with images (CA Asutosh Verma & others)
-  const expertsDetailed = [
-    { name: "CA Asutosh Verma", role: "Senior Tax Consultant & Auditor", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true", useImage: true },
-    { name: "Adv. Anand Srivastava", role: "Legal & Documentation Head", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Anand%20Srivastava%20(Advocate).png?raw=true", useImage: true },
-    { name: "Divya", role: "IPR Attorney & Copyright", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Divya.jpeg?raw=true", useImage: true },
-    { name: "Manash Gogoi", role: "Tax Expert", imageUrl:"https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Manash%20Gogoi%20.jpeg?raw=true", useImage: true }
-  ];
+  // Modal elements
+  const modal = document.getElementById("serviceModal");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const popupServiceSelect = document.getElementById("popupServiceSelect");
+  const popupPreview = document.getElementById("popupPreview");
+  let currentSelectedService = null;
   
-  const expertsContainer = document.getElementById("expertsList");
-  function renderExperts() {
-    expertsContainer.innerHTML = "";
-    expertsDetailed.forEach(ex => {
-      const cardDiv = document.createElement("div");
-      cardDiv.className = "expert-card";
-      if (ex.useImage && ex.imageUrl) {
-        cardDiv.innerHTML = `
-          <img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.onerror=null; this.src='https://placehold.co/110x110?text=Expert';">
-          <h3>${ex.name}</h3>
-          <p>${ex.role}</p>
-        `;
-      } else {
-        cardDiv.innerHTML = `<div class="expert-avatar">👤</div><h3>${ex.name}</h3><p>${ex.role}</p>`;
-      }
-      expertsContainer.appendChild(cardDiv);
-    });
+  function openModalWithService(service) {
+    currentSelectedService = service;
+    // Set the dropdown value to this service
+    if(popupServiceSelect) {
+      popupServiceSelect.value = service.name;
+    }
+    updateModalPreview(service);
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
   }
   
-  // Reviews Data
-  const reviewsData = [
-    { name: "Ritu Mehta", city: "Gurgaon", review: "Seamless GST registration & return filing. Tax2Free team is highly professional.", stars: 5 },
-    { name: "Amit Bansal", city: "Delhi", review: "Got my IEC and trademark registered effortlessly. Truly a one-stop solution!", stars: 5 },
-    { name: "Sunil Kumar", city: "Patna", review: "Affordable passport service with document guidance. Very supportive staff.", stars: 5 },
-    { name: "Neha Gupta", city: "Noida", review: "ITR filing done in 2 days with maximum refund. Great experience!", stars: 5 }
-  ];
-  const reviewSection = document.getElementById("reviewList");
-  reviewSection.innerHTML = "";
-  reviewsData.forEach(r => {
-    reviewSection.innerHTML += `<div class="review-card"><div class="stars">★★★★★</div><p>“${r.review}”</p><br/><h4>${r.name}</h4><small>${r.city}</small></div>`;
+  function updateModalPreview(service) {
+    if(popupPreview) {
+      popupPreview.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="font-size:2rem;">${service.icon}</div>
+          <div><strong>${service.name}</strong><br/><span style="color:#D4AF37; font-weight:bold;">${service.price}</span></div>
+        </div>
+        <p style="margin-top:8px; font-size:0.8rem;">${service.desc}</p>
+      `;
+    }
+  }
+  
+  function closeModal() {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+    // Reset form
+    document.getElementById("popupFullName").value = "";
+    document.getElementById("popupMobile").value = "";
+    document.getElementById("popupEmail").value = "";
+    if(popupServiceSelect) popupServiceSelect.value = "";
+    popupPreview.innerHTML = "💡 Select a service to see price & details";
+    currentSelectedService = null;
+  }
+  
+  // Populate dropdown in modal
+  function populateModalDropdown() {
+    fullServices.forEach(s => {
+      const option = document.createElement("option");
+      option.value = s.name;
+      option.textContent = `${s.icon} ${s.name} — ${s.price}`;
+      popupServiceSelect.appendChild(option);
+    });
+  }
+  populateModalDropdown();
+  
+  // When dropdown changes in modal
+  popupServiceSelect.addEventListener("change", (e) => {
+    const selectedName = e.target.value;
+    const found = fullServices.find(s => s.name === selectedName);
+    if(found) {
+      currentSelectedService = found;
+      updateModalPreview(found);
+    }
   });
   
+  // Close modal events
+  closeModalBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
+    if(e.target === modal) closeModal();
+  });
+  
+  // Handle popup form submission
+  const popupForm = document.getElementById("popupServiceForm");
+  popupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("popupFullName").value.trim();
+    const mobile = document.getElementById("popupMobile").value.trim();
+    const email = document.getElementById("popupEmail").value.trim();
+    const selectedService = popupServiceSelect.value;
+    
+    if(!name) { showToastMessage("❌ Please enter full name", true); return; }
+    if(!/^\d{10}$/.test(mobile)) { showToastMessage("📱 Enter valid 10-digit mobile number", true); return; }
+    if(!/^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email)) { showToastMessage("✉️ Enter valid email address", true); return; }
+    if(!selectedService) { showToastMessage("📌 Please select a service", true); return; }
+    
+    showToastMessage(`✅ Thank you ${name}! We'll contact you regarding ${selectedService} within 2 hours.`);
+    closeModal();
+  });
+  
+  // Toast helper
   function showToastMessage(msg, isError = false) {
     let toastDiv = document.getElementById("globalToast");
     if(!toastDiv){
@@ -861,59 +1010,83 @@
     setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3200);
   }
   
+  // Experts rendering
+  const expertsDetailed = [
+    { name: "CA Asutosh Verma", role: "Senior Tax Consultant & Auditor", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Ca%20Asutosh%20Verma.png?raw=true" },
+    { name: "Adv. Anand Srivastava", role: "Legal & Documentation Head", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Anand%20Srivastava%20(Advocate).png?raw=true" },
+    { name: "Divya", role: "IPR Attorney & Copyright", imageUrl: "https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Divya.jpeg?raw=true" },
+    { name: "Manash Gogoi", role: "Tax Expert", imageUrl:"https://github.com/tax2freeconsultantany-cloud/my-website/blob/main/Manash%20Gogoi%20.jpeg?raw=true" }
+  ];
+  const expertsContainer = document.getElementById("expertsList");
+  function renderExperts() {
+    expertsContainer.innerHTML = "";
+    expertsDetailed.forEach(ex => {
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "expert-card";
+      cardDiv.innerHTML = `<img class="expert-avatar-img" src="${ex.imageUrl}" alt="${ex.name}" onerror="this.src='https://placehold.co/110x110?text=Expert';"><h3>${ex.name}</h3><p>${ex.role}</p>`;
+      expertsContainer.appendChild(cardDiv);
+    });
+  }
+  
+  // Reviews
+  const reviewsData = [
+    { name: "Ritu Mehta", city: "Gurgaon", review: "Seamless GST registration & return filing. Professional team!", stars: 5 },
+    { name: "Amit Bansal", city: "Delhi", review: "Got IEC and trademark registered effortlessly. Great support!", stars: 5 },
+    { name: "Sunil Kumar", city: "Patna", review: "Affordable passport service. Very supportive staff.", stars: 5 },
+    { name: "Neha Gupta", city: "Noida", review: "ITR filing done in 2 days with maximum refund. Excellent!", stars: 5 }
+  ];
+  const reviewSection = document.getElementById("reviewList");
+  reviewSection.innerHTML = "";
+  reviewsData.forEach(r => {
+    reviewSection.innerHTML += `<div class="review-card"><div class="stars">★★★★★</div><p>“${r.review}”</p><br/><h4>${r.name}</h4><small>${r.city}</small></div>`;
+  });
+  
+  // Contact inquiry handler
   document.getElementById("submitInquiry")?.addEventListener("click", () => {
-    const name = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("emailId").value.trim();
-    const mobile = document.getElementById("mobileNo").value.trim();
+    const name = document.getElementById("fullNameContact").value.trim();
+    const email = document.getElementById("emailIdContact").value.trim();
+    const mobile = document.getElementById("mobileNoContact").value.trim();
     const msg = document.getElementById("msgContent").value.trim();
     if(!name || !email || !mobile) {
       showToastMessage("⚠️ Please fill name, email & mobile number", true);
       return;
     }
-    const emailReg = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-    if(!emailReg.test(email)){
+    if(!/^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email)){
       showToastMessage("❌ Invalid email address", true);
       return;
     }
-    if(!/^[6-9]\d{9}$/.test(mobile) && !/^\d{10}$/.test(mobile)){
-      showToastMessage("📞 Enter a valid 10-digit mobile number", true);
+    if(!/^\d{10}$/.test(mobile)){
+      showToastMessage("📞 Enter valid 10-digit mobile number", true);
       return;
     }
     showToastMessage(`✅ Thank you ${name}! Our expert will contact you within 24 hours.`);
-    document.getElementById("fullName").value = "";
-    document.getElementById("emailId").value = "";
-    document.getElementById("mobileNo").value = "";
+    document.getElementById("fullNameContact").value = "";
+    document.getElementById("emailIdContact").value = "";
+    document.getElementById("mobileNoContact").value = "";
     document.getElementById("msgContent").value = "";
   });
   
+  // Navigation
   document.getElementById("exploreServicesBtn")?.addEventListener("click", () => {
     document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" });
-    showToastMessage("✨ Browse our 24+ specialized services below!");
   });
   document.getElementById("contactExpertBtn")?.addEventListener("click", () => {
     document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
-    showToastMessage("📞 Fill the form or call us directly for immediate expert advice.");
   });
-  
   document.getElementById("whatsappBtn")?.addEventListener("click", () => {
-    window.open("https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy%20for%20tax%2Flegal%20services.", "_blank");
-    showToastMessage("📱 Starting WhatsApp chat with our support team.");
+    window.open("https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy.", "_blank");
   });
-  
   document.getElementById("footerHome")?.addEventListener("click", () => document.getElementById("home").scrollIntoView({ behavior: "smooth" }));
   document.getElementById("footerServices")?.addEventListener("click", () => document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" }));
   document.getElementById("footerContact")?.addEventListener("click", () => document.getElementById("contact").scrollIntoView({ behavior: "smooth" }));
   
+  // Mobile menu
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
   if(menuToggle) {
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("mobile-show");
-    });
+    menuToggle.addEventListener("click", () => navMenu.classList.toggle("mobile-show"));
     document.querySelectorAll("nav a").forEach(link => {
-      link.addEventListener("click", () => {
-        if(window.innerWidth <= 900) navMenu.classList.remove("mobile-show");
-      });
+      link.addEventListener("click", () => { if(window.innerWidth <= 900) navMenu.classList.remove("mobile-show"); });
     });
   }
   
@@ -925,6 +1098,10 @@
       if(targetElem) targetElem.scrollIntoView({ behavior: "smooth" });
     });
   });
+  
+  // Mobile number sanitization
+  document.getElementById("popupMobile")?.addEventListener("input", function(e) { this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); });
+  document.getElementById("mobileNoContact")?.addEventListener("input", function(e) { this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); });
   
   renderAllServices();
   renderExperts();
