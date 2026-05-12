@@ -394,7 +394,7 @@
       background: #1f418f;
     }
 
-    /* ===== POPUP MODAL STYLES (Hidden by default) ===== */
+    /* ===== POPUP MODAL STYLES (Hidden by default) - BOOKING MODAL ===== */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -415,106 +415,79 @@
       visibility: visible;
       opacity: 1;
     }
-    .modal-container {
+    .modal-card {
       background: white;
       border-radius: 2rem;
       width: 90%;
-      max-width: 550px;
+      max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
       transform: scale(0.95);
       transition: transform 0.3s ease;
+      position: relative;
+      padding: 1.8rem;
     }
-    .modal-overlay.active .modal-container {
+    .modal-overlay.active .modal-card {
       transform: scale(1);
     }
-    .modal-header {
-      background: linear-gradient(135deg, #082567, #0f3ba8);
-      color: white;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 2rem 2rem 0 0;
-    }
-    .modal-header h3 {
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
     .close-modal {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      font-size: 28px;
+      position: absolute;
+      right: 1.5rem;
+      top: 1rem;
+      font-size: 32px;
+      font-weight: bold;
       cursor: pointer;
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: #aaa;
       transition: 0.2s;
+      line-height: 1;
+      background: transparent;
+      border: none;
     }
     .close-modal:hover {
-      background: rgba(255,255,255,0.4);
+      color: #082567;
     }
-    .modal-body {
-      padding: 2rem;
-    }
-    .input-group-modal {
+    .modal-card h3 {
+      font-size: 1.8rem;
+      color: #082567;
       margin-bottom: 1.2rem;
+      border-left: 5px solid #D4AF37;
+      padding-left: 1rem;
     }
-    .input-group-modal label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #1e293b;
-    }
-    .input-group-modal input, .input-group-modal select {
+    #bookingForm input, #bookingForm select, #bookingForm textarea {
       width: 100%;
-      padding: 0.85rem 1rem;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.2rem;
       border: 1.5px solid #e2e8f0;
-      border-radius: 1rem;
+      border-radius: 1.2rem;
       font-size: 1rem;
-      outline: none;
       transition: 0.2s;
+      outline: none;
+      background: #fff;
     }
-    .input-group-modal input:focus, .input-group-modal select:focus {
+    #bookingForm input:focus, #bookingForm select:focus, #bookingForm textarea:focus {
       border-color: #D4AF37;
       box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
     }
-    .modal-submit-btn {
+    #bookingForm textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .btn-primary {
       background: #D4AF37;
       color: #082567;
+      border: none;
+      font-weight: 800;
       width: 100%;
       padding: 1rem;
-      border: none;
       border-radius: 2rem;
-      font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
-      margin-top: 1rem;
       transition: 0.25s;
     }
-    .modal-submit-btn:hover {
+    .btn-primary:hover {
       background: #c3a22e;
-    }
-    .service-preview-modal {
-      background: #f1f5f9;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-    @media (max-width: 560px) {
-      .modal-body {
-        padding: 1.2rem;
-      }
+      transform: scale(1.01);
     }
 
     /* Experts section */
@@ -721,7 +694,7 @@
       <h2>Professional Tax & Legal Consultancy Services</h2>
       <p>GST, ITR, Trademark, Company Registration, Passport, FSSAI, Legal Documentation & more.</p>
       <div class="btn-group" style="display: flex; gap: 16px; margin-top: 20px;">
-        <button class="btn btn-primary" id="exploreServicesBtn">Book a Service</button>
+        <button class="btn btn-primary" id="bookServiceHeroBtn">📅 Book a Service</button>
         <button class="btn btn-outline" id="contactExpertBtn">Become Agent</button>
       </div>
     </div>
@@ -821,44 +794,25 @@
 <button class="whatsapp" id="whatsappBtn">💬 WhatsApp Support</button>
 <div id="globalToast" style="position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:2002;"></div>
 
-<!-- ========== POPUP MODAL (HIDDEN SERVICE REQUEST FORM) ========== -->
-<div class="modal-overlay" id="serviceModal">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h3>📋 Quick Service Request</h3>
-      <button class="close-modal" id="closeModalBtn">&times;</button>
-    </div>
-    <div class="modal-body">
-      <form id="popupServiceForm">
-        <div class="input-group-modal">
-          <label>🧑‍💼 Full Name *</label>
-          <input type="text" id="popupFullName" placeholder="Enter your full name" required>
-        </div>
-        <div class="input-group-modal">
-          <label>📞 Mobile Number *</label>
-          <input type="tel" id="popupMobile" placeholder="10-digit mobile number" maxlength="10" required>
-        </div>
-        <div class="input-group-modal">
-          <label>✉️ Email ID *</label>
-          <input type="email" id="popupEmail" placeholder="you@example.com" required>
-        </div>
-        <div class="input-group-modal">
-          <label>📌 Select Service *</label>
-          <select id="popupServiceSelect" required>
-            <option value="" disabled selected>— Select a service —</option>
-          </select>
-        </div>
-        <div class="service-preview-modal" id="popupPreview">
-          💡 Select a service to see price & details
-        </div>
-        <button type="submit" class="modal-submit-btn">✨ Submit Request →</button>
-      </form>
-    </div>
+<!-- ====== BOOKING MODAL (50% Advance) ====== -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-card">
+    <span class="close-modal" id="closeModalBtn">&times;</span>
+    <h3>📋 Book Service (50% Advance)</h3>
+    <form id="bookingForm">
+      <input type="text" id="bookFullName" placeholder="Full Name" required>
+      <input type="tel" id="bookMobile" placeholder="Mobile Number" required>
+      <input type="email" id="bookEmail" placeholder="Email ID" required>
+      <input type="text" id="bookAddress" placeholder="Address">
+      <select id="bookServiceSelect" required></select>
+      <textarea id="bookQuery" placeholder="Message (optional)"></textarea>
+      <button type="submit" class="btn-primary" style="width:100%">Proceed to Pay 50% Advance</button>
+    </form>
   </div>
 </div>
 
 <script>
-  // Comprehensive service list
+  // FULL SERVICES ARRAY (as per existing)
   const fullServices = [
     { name: "Passport Service", price: "₹1,299*", desc: "End-to-end assistance for new/renewal, tatkaal & documentation.", icon: "🛂" },
     { name: "MSME / Udyam Registration", price: "₹1,499", desc: "Udyam / Udyog Aadhaar Registration – govt certificate.", icon: "📜" },
@@ -886,7 +840,7 @@
     { name: "Digital Signature (DSC)", price: "₹1,399", desc: "Class 2/3 DSC for e-tendering, ROC filing & ITR.", icon: "🔑" }
   ];
   
-  // Render services grid
+  // Render all services grid
   const servicesGrid = document.getElementById("completeServicesGrid");
   function renderAllServices() {
     servicesGrid.innerHTML = "";
@@ -898,108 +852,61 @@
         <h3>${srv.name}</h3>
         <div class="service-price">${srv.price}</div>
         <div class="service-desc">${srv.desc}</div>
-        <button class="apply-srv-btn" data-service='${JSON.stringify(srv)}'>Apply Now →</button>
+        <button class="apply-srv-btn" data-servicename="${srv.name}">Apply Now →</button>
       `;
       servicesGrid.appendChild(card);
     });
-    // Attach click handlers to all Apply Now buttons
     document.querySelectorAll('.apply-srv-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const serviceData = JSON.parse(btn.getAttribute('data-service'));
-        openModalWithService(serviceData);
+        const serviceName = btn.getAttribute('data-servicename');
+        const matchedService = fullServices.find(s => s.name === serviceName);
+        if(matchedService) {
+          openBookingModal(matchedService);
+        } else {
+          openBookingModal(null);
+        }
       });
     });
   }
   
-  // Modal elements
-  const modal = document.getElementById("serviceModal");
+  // Booking Modal Logic
+  const bookingModal = document.getElementById("bookingModal");
   const closeModalBtn = document.getElementById("closeModalBtn");
-  const popupServiceSelect = document.getElementById("popupServiceSelect");
-  const popupPreview = document.getElementById("popupPreview");
-  let currentSelectedService = null;
+  const bookServiceSelect = document.getElementById("bookServiceSelect");
+  const bookingForm = document.getElementById("bookingForm");
   
-  function openModalWithService(service) {
-    currentSelectedService = service;
-    // Set the dropdown value to this service
-    if(popupServiceSelect) {
-      popupServiceSelect.value = service.name;
+  // Populate dropdown with services
+  function populateBookingDropdown() {
+    bookServiceSelect.innerHTML = '<option value="" disabled selected>-- Select Service --</option>';
+    fullServices.forEach(service => {
+      const option = document.createElement("option");
+      option.value = service.name;
+      option.textContent = `${service.icon} ${service.name} (${service.price})`;
+      bookServiceSelect.appendChild(option);
+    });
+  }
+  populateBookingDropdown();
+  
+  function openBookingModal(selectedService = null) {
+    if(selectedService && bookServiceSelect) {
+      bookServiceSelect.value = selectedService.name;
     }
-    updateModalPreview(service);
-    modal.classList.add("active");
+    bookingModal.classList.add("active");
     document.body.style.overflow = "hidden";
   }
   
-  function updateModalPreview(service) {
-    if(popupPreview) {
-      popupPreview.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="font-size:2rem;">${service.icon}</div>
-          <div><strong>${service.name}</strong><br/><span style="color:#D4AF37; font-weight:bold;">${service.price}</span></div>
-        </div>
-        <p style="margin-top:8px; font-size:0.8rem;">${service.desc}</p>
-      `;
-    }
-  }
-  
-  function closeModal() {
-    modal.classList.remove("active");
+  function closeBookingModal() {
+    bookingModal.classList.remove("active");
     document.body.style.overflow = "";
-    // Reset form
-    document.getElementById("popupFullName").value = "";
-    document.getElementById("popupMobile").value = "";
-    document.getElementById("popupEmail").value = "";
-    if(popupServiceSelect) popupServiceSelect.value = "";
-    popupPreview.innerHTML = "💡 Select a service to see price & details";
-    currentSelectedService = null;
+    bookingForm.reset();
   }
   
-  // Populate dropdown in modal
-  function populateModalDropdown() {
-    fullServices.forEach(s => {
-      const option = document.createElement("option");
-      option.value = s.name;
-      option.textContent = `${s.icon} ${s.name} — ${s.price}`;
-      popupServiceSelect.appendChild(option);
-    });
-  }
-  populateModalDropdown();
-  
-  // When dropdown changes in modal
-  popupServiceSelect.addEventListener("change", (e) => {
-    const selectedName = e.target.value;
-    const found = fullServices.find(s => s.name === selectedName);
-    if(found) {
-      currentSelectedService = found;
-      updateModalPreview(found);
-    }
+  closeModalBtn.addEventListener("click", closeBookingModal);
+  bookingModal.addEventListener("click", (e) => {
+    if(e.target === bookingModal) closeBookingModal();
   });
   
-  // Close modal events
-  closeModalBtn.addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => {
-    if(e.target === modal) closeModal();
-  });
-  
-  // Handle popup form submission
-  const popupForm = document.getElementById("popupServiceForm");
-  popupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("popupFullName").value.trim();
-    const mobile = document.getElementById("popupMobile").value.trim();
-    const email = document.getElementById("popupEmail").value.trim();
-    const selectedService = popupServiceSelect.value;
-    
-    if(!name) { showToastMessage("❌ Please enter full name", true); return; }
-    if(!/^\d{10}$/.test(mobile)) { showToastMessage("📱 Enter valid 10-digit mobile number", true); return; }
-    if(!/^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email)) { showToastMessage("✉️ Enter valid email address", true); return; }
-    if(!selectedService) { showToastMessage("📌 Please select a service", true); return; }
-    
-    showToastMessage(`✅ Thank you ${name}! We'll contact you regarding ${selectedService} within 2 hours.`);
-    closeModal();
-  });
-  
-  // Toast helper
+  // Toast message helper
   function showToastMessage(msg, isError = false) {
     let toastDiv = document.getElementById("globalToast");
     if(!toastDiv){
@@ -1009,8 +916,47 @@
       toastDiv = d;
     }
     toastDiv.innerHTML = `<div style="background:${isError ? '#b91c1c' : '#082567'}; color:white; padding:12px 28px; border-radius:60px; font-weight:500; box-shadow:0 8px 16px rgba(0,0,0,0.2);">${msg}</div>`;
-    setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3200);
+    setTimeout(() => { if(toastDiv) toastDiv.innerHTML = ''; }, 3500);
   }
+  
+  // Handle Form Submission
+  bookingForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fullName = document.getElementById("bookFullName").value.trim();
+    const mobile = document.getElementById("bookMobile").value.trim();
+    const email = document.getElementById("bookEmail").value.trim();
+    const address = document.getElementById("bookAddress").value.trim();
+    const selectedService = bookServiceSelect.value;
+    const query = document.getElementById("bookQuery").value.trim();
+    
+    if(!fullName) { showToastMessage("❌ Please enter full name", true); return; }
+    if(!/^\d{10}$/.test(mobile)) { showToastMessage("📱 Enter valid 10-digit mobile number", true); return; }
+    if(!/^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email)) { showToastMessage("✉️ Enter valid email address", true); return; }
+    if(!selectedService) { showToastMessage("📌 Please select a service", true); return; }
+    
+    const bookingData = { fullName, mobile, email, address, selectedService, query };
+    console.log("Booking Request (50% Advance):", bookingData);
+    showToastMessage(`✅ Thank you ${fullName}! Your booking for ${selectedService} is received. We'll share payment link for 50% advance shortly.`);
+    closeBookingModal();
+  });
+  
+  // Hero & other buttons to open modal
+  document.getElementById("bookServiceHeroBtn")?.addEventListener("click", () => openBookingModal());
+  // Also any other "Book a Service" triggers
+  document.getElementById("exploreServicesBtn")?.addEventListener("click", () => {
+    document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" });
+  });
+  
+  // Existing event for contact expert etc
+  document.getElementById("contactExpertBtn")?.addEventListener("click", () => {
+    document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+  });
+  document.getElementById("whatsappBtn")?.addEventListener("click", () => {
+    window.open("https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy.", "_blank");
+  });
+  document.getElementById("footerHome")?.addEventListener("click", () => document.getElementById("home").scrollIntoView({ behavior: "smooth" }));
+  document.getElementById("footerServices")?.addEventListener("click", () => document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" }));
+  document.getElementById("footerContact")?.addEventListener("click", () => document.getElementById("contact").scrollIntoView({ behavior: "smooth" }));
   
   // Experts rendering
   const expertsDetailed = [
@@ -1068,21 +1014,7 @@
     document.getElementById("msgContent").value = "";
   });
   
-  // Navigation
-  document.getElementById("exploreServicesBtn")?.addEventListener("click", () => {
-    document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" });
-  });
-  document.getElementById("contactExpertBtn")?.addEventListener("click", () => {
-    document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
-  });
-  document.getElementById("whatsappBtn")?.addEventListener("click", () => {
-    window.open("https://wa.me/9717611513?text=Hello%20Tax2Free%2C%20I%20need%20consultancy.", "_blank");
-  });
-  document.getElementById("footerHome")?.addEventListener("click", () => document.getElementById("home").scrollIntoView({ behavior: "smooth" }));
-  document.getElementById("footerServices")?.addEventListener("click", () => document.getElementById("fullServiceList").scrollIntoView({ behavior: "smooth" }));
-  document.getElementById("footerContact")?.addEventListener("click", () => document.getElementById("contact").scrollIntoView({ behavior: "smooth" }));
-  
-  // Mobile menu
+  // Mobile menu logic
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
   if(menuToggle) {
@@ -1101,8 +1033,8 @@
     });
   });
   
-  // Mobile number sanitization
-  document.getElementById("popupMobile")?.addEventListener("input", function(e) { this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); });
+  // mobile number sanitization
+  document.getElementById("bookMobile")?.addEventListener("input", function(e) { this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); });
   document.getElementById("mobileNoContact")?.addEventListener("input", function(e) { this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); });
   
   renderAllServices();
