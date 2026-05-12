@@ -799,14 +799,14 @@
   <div class="modal-card">
     <span class="close-modal" id="closeModalBtn">&times;</span>
     <h3>📋 Book Service (50% Advance)</h3>
-    <form id="bookingForm">
-      <input type="text" id="bookFullName" placeholder="Full Name" required>
-      <input type="tel" id="bookMobile" placeholder="Mobile Number" required>
+    <form id="bookingForm" method="POST" action="submit_booking.php
+      <input type="name" id="bookFullName" placeholder="Full Name" required>
+      <input type="mobile" id="bookMobile" placeholder="Mobile Number" required>
       <input type="email" id="bookEmail" placeholder="Email ID" required>
-      <input type="text" id="bookAddress" placeholder="Address">
-      <select id="bookServiceSelect" required></select>
-      <textarea id="bookQuery" placeholder="Message (optional)"></textarea>
-      <button type="submit" class="btn-primary" style="width:100%">Proceed to Pay 50% Advance</button>
+      <input type="address" id="bookAddress" placeholder="Address">
+      <select id="service" required></select>
+      <textarea id="message" placeholder="Message (optional)"></textarea>
+      <button type="payment" class="btn-primary" style="width:100%">Proceed to Pay</button>
     </form>
   </div>
 </div>
