@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tax2Free Consultancy | Unified Portal</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            overflow-x: hidden;
+        }
+
+        /* ========= LOGIN / REGISTRATION COMMON ========= */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a2b3e 0%, #0f3b4f 100%);
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 36px;
+            padding: 40px 32px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffb347, #ff8c00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .auth-logo i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .auth-card h2 {
+            font-size: 1.8rem;
+            color: #0a2b3e;
+            margin-bottom: 8px;
+        }
+
+        .auth-card p {
+            color: #5e6f8d;
+            margin-bottom: 28px;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cfdfed;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #ffb347;
+            box-shadow: 0 0 0 3px rgba(255, 180, 71, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0a2b3e, #0f3b4f);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            background: linear-gradient(135deg, #ffb347, #ff8c00);
+            color: #0a2b3e;
+        }
+
+        .toggle-link {
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        .toggle-link a {
+            color: #ffb347;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .fee-banner {
+            background: linear-gradient(135deg, #fff3e0, #ffe8cc);
+            border-radius: 24px;
+            padding: 14px 18px;
+            text-align: center;
+            margin: 15px 0 20px;
+            border: 1px solid #ffb347;
+        }
+
+        .fee-banner .amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ff8c00;
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            display: none;
+            white-space: nowrap;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #0a2b3e 0%, #0f3b4f 100%);
+            color: white;
+            transition: all 0.3s;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e0e7ef;
+            cursor: pointer;
+            transition: 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item i {
+            width: 22px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: #ffb347;
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px 30px;
+        }
+
+        .top-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .role-badge {
+            background: #eef2ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .logout-icon {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0a2b3e;
+        }
+
+        .dashboard-panel {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffb347;
+            padding-left: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 8px;
+            border-bottom: 1px solid #e9eef3;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            background: #ecfdf3;
+            color: #067647;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .btn-sm {
+            background: #0a2b3e;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .btn-sm:hover {
+            background: #ffb347;
+            color: #0a2b3e;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cfdfed;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+
+        .commission-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar { width: 80px; }
+            .sidebar-header h2, .sidebar-header p, .menu-item span { display: none; }
+            .main-content { margin-left: 80px; }
+            .menu-item { justify-content: center; }
+        }
+
+        #dashboardWrapper, #registrationSection { display: none; }
+        #loginSection { display: flex; }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN SECTION -->
+<div id="loginSection" class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo"><i class="fas fa-shield-alt"></i></div>
+        <h2>Tax2Free Consultancy</h2>
+        <p>Secure Role-Based Access</p>
+        <div class="input-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="loginEmail" placeholder="Enter email" value="admin@tax2free.com"></div>
+        <div class="input-group"><label><i class="fas fa-lock"></i> Password</label><input type="password" id="loginPassword" placeholder="Password" value="admin123"></div>
+        <div class="input-group"><label><i class="fas fa-user-tag"></i> Role</label>
+            <select id="loginRole"><option value="admin">Admin</option><option value="partner">Partner</option><option value="agent">Agent</option><option value="customer">Customer</option></select>
+        </div>
+        <button class="auth-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+        <div class="toggle-link">New user? <a id="showRegBtn">Register as Agent →</a></div>
+        <div class="demo-hint" style="margin-top:15px; font-size:0.7rem; background:#f8fafc; padding:10px; border-radius:16px;">
+            🔐 Demo: admin@tax2free.com / any | Partner/Agent/Customer also works
+        </div>
+    </div>
+</div>
+
+<!-- REGISTRATION SECTION (Agent Signup) -->
+<div id="registrationSection" class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo"><i class="fas fa-user-tie"></i></div>
+        <h2>Become an Agent</h2>
+        <p>Join & Earn Commission | ₹1000 One-time fee</p>
+        <div class="fee-banner"><span class="amount">₹1,000</span><small> Lifetime Access</small><div>✅ Earn per lead | Weekly Payouts</div></div>
+        <form id="agentRegForm">
+            <div class="input-row">
+                <div class="input-group"><label><i class="fas fa-user"></i> Full Name</label><input type="text" id="fullName" placeholder="Full name"></div>
+                <div class="input-group"><label><i class="fas fa-flag"></i> Language</label><select id="language"><option>English</option><option>Hindi</option></select></div>
+            </div>
+            <div class="input-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+            <div class="input-row">
+                <div class="input-group"><label><i class="fas fa-phone-alt"></i> Mobile</label><input type="tel" id="mobile" placeholder="10-digit mobile" maxlength="10"></div>
+                <div class="input-group"><label><i class="fas fa-city"></i> City</label><input type="text" id="city" placeholder="City"></div>
+            </div>
+            <div class="input-row">
+                <div class="input-group"><label><i class="fas fa-lock"></i> Password</label><input type="password" id="regPassword" placeholder="Min 6 chars"></div>
+                <div class="input-group"><label><i class="fas fa-check-circle"></i> Confirm</label><input type="password" id="confirmPassword" placeholder="Confirm"></div>
+            </div>
+            <div class="input-group"><label><i class="fas fa-qrcode"></i> Referral Code (optional)</label><input type="text" id="referralCode" placeholder="Referral code"></div>
+            <div class="input-group"><label><i class="fas fa-bank"></i> Bank Account (for payouts)</label><input type="text" id="bankAccount" placeholder="Account number"></div>
+            <button type="button" id="payAndRegisterBtn" class="auth-btn"><i class="fas fa-credit-card"></i> Pay ₹1,000 & Register</button>
+        </form>
+        <div class="toggle-link">Already have an account? <a id="showLoginFromRegBtn">Login Here</a></div>
+        <div class="terms" style="font-size:0.7rem; margin-top:15px;">₹1000 non-refundable registration fee. By registering you agree to T&C.</div>
+    </div>
+</div>
+
+<!-- DASHBOARD WRAPPER -->
+<div id="dashboardWrapper">
+<div class="dashboard-container">
+    <div class="sidebar">
+        <div class="sidebar-header"><h2>Tax2Free</h2><p>Consultancy ERP</p></div>
+        <div class="sidebar-menu" id="sidebarMenu"></div>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <div><i class="fas fa-bell" style="color:#ffb347;"></i> <span id="currentRoleDisplay">Dashboard</span></div>
+            <div class="user-info"><div class="role-badge" id="userRoleBadge"><i class="fas fa-user-circle"></i> <span id="userNameDisplay">User</span></div><div class="logout-icon" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</div></div>
+        </div>
+        <div id="dynamicPanelsContainer"></div>
+    </div>
+</div>
+</div>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<script>
+    // ======================== GLOBAL DATA & HELPERS ========================
+    let currentUser = null;
+    
+    // Agent storage (merged with login system)
+    let registeredAgents = JSON.parse(localStorage.getItem('tax2free_agents_v2') || '[]');
+    function saveAgents() { localStorage.setItem('tax2free_agents_v2', JSON.stringify(registeredAgents)); }
+    function isEmailRegistered(email) { return registeredAgents.some(agent => agent.email === email); }
+    
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg;
+        toast.style.backgroundColor = isError ? '#e74c3c' : '#27ae60';
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 3500);
+    }
+    
+    // Role-based dashboards content
+    const adminPanel = `
+        <div class="stats-grid">
+            <div class="stat-card"><h3>Total Services Booked</h3><div class="stat-number">124</div></div>
+            <div class="stat-card"><h3>Active Agents</h3><div class="stat-number">${registeredAgents.length}</div></div>
+            <div class="stat-card"><h3>Partners</h3><div class="stat-number">6</div></div>
+            <div class="stat-card"><h3>Total Commission Paid</h3><div class="stat-number">₹1,28,500</div></div>
+        </div>
+        <div class="dashboard-panel">
+            <div class="panel-title"><i class="fas fa-tasks"></i> Lead Assignment & Customer Details</div>
+            <table><thead><tr><th>Customer</th><th>Service</th><th>Payment Status</th><th>Work Status</th><th>Assigned Partner</th><th>Action</th></tr></thead>
+            <tbody><tr><td>Rahul Sharma</td><td>GST Registration</td><td><span class="badge">50% Advance</span></td><td>Pending</td><td>-</td><td><button class="btn-sm assignLeadBtn" data-customer="Rahul Sharma">Assign Partner</button></td></tr>
+            <tr><td>Priya Verma</td><td>ITR Filing</td><td><span class="badge">Paid</span></td><td>Processing</td><td>-</td><td><button class="btn-sm assignLeadBtn" data-customer="Priya Verma">Assign Partner</button></td></tr>
+            <tr><td>Amit Kumar</td><td>Trademark</td><td><span class="badge">50% Advance</span></td><td>Under Review</td><td>-</td><td><button class="btn-sm assignLeadBtn" data-customer="Amit Kumar">Assign Partner</button></td></tr>
+            </tbody></table>
+            <div style="margin-top:15px;"><button class="btn-sm" id="approveWithdrawalBtn"><i class="fas fa-check-circle"></i> Approve Agent Payout (₹1500)</button></div>
+        </div>
+        <div class="dashboard-panel"><div class="panel-title">📊 Commission Management</div><p><strong>Agent Commission:</strong> ₹250-800 per lead. Payout every 15-20 days.</p><div class="commission-box"><strong>Pending Payouts:</strong> ₹34,200</div></div>
+    `;
+    const partnerPanel = `<div class="dashboard-panel"><div class="panel-title"><i class="fas fa-briefcase"></i> Partner Dashboard | Assigned Leads</div>
+        <table><thead><tr><th>Customer</th><th>Service</th><th>Documents</th><th>Work Status</th><th>Est. Completion</th><th>Update</th></tr></thead>
+        <tbody><tr><td>Neha Singh</td><td>Passport Service</td><td><a href="#">View PDF</a></td><td><select class="workStatusSelect"><option>Pending</option><option>Processing</option><option>Completed</option></select></td><td><input type="date" value="2026-05-20"></td><td><button class="btn-sm updateWorkBtn">Update</button></td></tr>
+        <tr><td>Ravi Mehta</td><td>Loan Assistance</td><td><a href="#">PAN Card.jpg</a></td><td><select class="workStatusSelect"><option>Processing</option></select></td><td><input type="date" value="2026-05-22"></td><td><button class="btn-sm updateWorkBtn">Update</button></td></tr>
+        </tbody></table><div class="commission-box"><strong>My Commission This Month:</strong> ₹4,200 | Solved Work: 8</div></div>`;
+    const agentPanel = `<div class="dashboard-panel"><div class="panel-title"><i class="fas fa-chart-line"></i> Agent Portal | Submit Leads & Commission</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"><div><h4>➕ Submit New Lead</h4><form id="agentLeadForm"><input type="text" placeholder="Full Name" class="form-input" required><input type="tel" placeholder="Mobile" class="form-input" required><input type="email" placeholder="Email" class="form-input" required><select class="form-input"><option>GST Registration</option><option>ITR Filing</option><option>Passport Service</option></select><input type="file" class="form-input"><button type="submit" class="btn-sm" style="margin-top:10px;">Submit Lead</button></form></div>
+        <div><h4>💰 Commission & Earnings</h4><div class="commission-box"><strong>Total Leads Submitted:</strong> 23<br><strong>Completed Leads:</strong> 14<br><strong>Total Commission Earned:</strong> ₹11,200<br><strong>Pending Payout:</strong> ₹5,600<br><button class="btn-sm" id="requestWithdrawalBtn">Request Withdrawal</button></div></div></div>
+        <hr><h4>📋 My Submitted Leads</h4><table><thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Commission</th></tr></thead><tbody><tr><td>Sneha Sinha</td><td>ITR Filing</td><td>Completed</td><td>₹500 Credited</td></tr><tr><td>Manoj Das</td><td>Loan Assistance</td><td>Processing</td><td>Pending</td></tr></tbody></table></div>`;
+    const customerPanel = `<div class="dashboard-panel"><div class="panel-title"><i class="fas fa-user-check"></i> Customer Dashboard</div><div class="stats-grid"><div class="stat-card"><h3>My Services</h3><div class="stat-number">3</div></div></div>
+        <table><thead><tr><th>Service</th><th>Work Status</th><th>Assigned Partner</th><th>Expected Completion</th></tr></thead><tbody><tr><td>GST Registration</td><td><span class="badge">Under Review</span></td><td>Partner - Anjali & Co.</td><td>26 May 2026</td></tr>
+        <tr><td>Trademark Filing</td><td><span class="badge">Processing</span></td><td>LegalAxis</td><td>30 May 2026</td></tr></tbody></table>
+        <div><i class="fab fa-whatsapp"></i> Support: +91 9717611513 | <i class="fas fa-phone-alt"></i> +91 7295860655</div></div>`;
+    
+    const sidebarMenus = { admin: [{ icon: "fas fa-tachometer-alt", name: "Admin Dashboard", panel: "admin" }], partner: [{ icon: "fas fa-handshake", name: "Partner Dashboard", panel: "partner" }], agent: [{ icon: "fas fa-user-tie", name: "Agent Dashboard", panel: "agent" }], customer: [{ icon: "fas fa-users", name: "My Services", panel: "customer" }] };
+    const panelContents = { admin: adminPanel, partner: partnerPanel, agent: agentPanel, customer: customerPanel };
+    
+    function renderDashboard(role, userName) {
+        const sidebarDiv = document.getElementById('sidebarMenu');
+        const panels = document.getElementById('dynamicPanelsContainer');
+        document.getElementById('currentRoleDisplay').innerHTML = role === 'admin' ? '<strong>Admin Mode</strong>' : (role === 'partner' ? 'Partner Mode' : (role === 'agent' ? 'Agent Mode' : 'Customer Mode'));
+        document.getElementById('userNameDisplay').innerText = userName || role.toUpperCase();
+        document.getElementById('userRoleBadge').innerHTML = `<i class="fas ${role === 'admin' ? 'fa-user-shield' : 'fa-user'}"></i> ${userName || role}`;
+        let menuHtml = ''; sidebarMenus[role].forEach(m => { menuHtml += `<div class="menu-item active" data-panel="${m.panel}"><i class="${m.icon}"></i> <span>${m.name}</span></div>`; });
+        sidebarDiv.innerHTML = menuHtml;
+        panels.innerHTML = panelContents[role];
+        
+        // Bind role-specific events
+        if(role === 'admin') {
+            setTimeout(() => {
+                document.querySelectorAll('.assignLeadBtn').forEach(btn => btn.addEventListener('click', (e) => { let cust = btn.getAttribute('data-customer'); let partner = prompt(`Assign partner for ${cust}:`, "Legal Partner"); if(partner) btn.closest('tr').cells[4].innerHTML = partner; }));
+                let approve = document.getElementById('approveWithdrawalBtn');
+                if(approve) approve.addEventListener('click', () => showToast("✅ Admin approved agent payout of ₹1500."));
+            }, 100);
+        }
+        if(role === 'partner') {
+            setTimeout(() => { document.querySelectorAll('.updateWorkBtn').forEach(btn => btn.addEventListener('click', () => showToast("✅ Work status updated! Customer will see live status."))); }, 100);
+        }
+        if(role === 'agent') {
+            setTimeout(() => {
+                let form = document.getElementById('agentLeadForm'); if(form) form.addEventListener('submit', (e) => { e.preventDefault(); showToast("🎉 Lead submitted! Admin will review."); form.reset(); });
+                let withdraw = document.getElementById('requestWithdrawalBtn'); if(withdraw) withdraw.addEventListener('click', () => showToast("💰 Withdrawal request sent to Admin."));
+            }, 100);
+        }
+    }
+    
+    // handle login (supports both default demo and registered agent login)
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const pwd = document.getElementById('loginPassword').value.trim();
+        let role = document.getElementById('loginRole').value;
+        if(!email || !pwd) { showToast("Enter credentials", true); return; }
+        // Check if agent registered & trying to login as Agent
+        const existingAgent = registeredAgents.find(ag => ag.email === email);
+        if(existingAgent && role === 'agent') {
+            // verify password (simple base64 compare)
+            const decodedPass = atob(existingAgent.password);
+            if(decodedPass !== pwd) { showToast("Invalid password for agent", true); return; }
+            currentUser = { email, role: 'agent', name: existingAgent.fullName.split(' ')[0] };
+        } else {
+            // default demo pass any non-empty
+            if(!email || !pwd) return;
+            currentUser = { email, role, name: email.split('@')[0] };
+        }
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('registrationSection').style.display = 'none';
+        document.getElementById('dashboardWrapper').style.display = 'block';
+        renderDashboard(currentUser.role, currentUser.name);
+        addFloatingButtons();
+    }
+    
+    function addFloatingButtons() {
+        document.querySelectorAll('.float-btn-remove').forEach(el => el.remove());
+        const whats = document.createElement('div'); whats.className = 'float-btn-remove'; whats.style.position = 'fixed'; whats.style.bottom = '20px'; whats.style.right = '20px'; whats.style.zIndex = '999'; whats.innerHTML = '<a href="https://wa.me/919717611513" target="_blank" style="background:#25D366; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:28px; box-shadow:0 4px 12px rgba(0,0,0,0.2);"><i class="fab fa-whatsapp"></i></a>'; document.body.appendChild(whats);
+        const call = document.createElement('div'); call.className = 'float-btn-remove'; call.style.position = 'fixed'; call.style.bottom = '90px'; call.style.right = '20px'; call.style.zIndex = '999'; call.innerHTML = '<a href="tel:+917295860655" style="background:#ffb347; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#0a2b3e; font-size:24px; box-shadow:0 4px 12px rgba(0,0,0,0.2);"><i class="fas fa-phone-alt"></i></a>'; document.body.appendChild(call);
+    }
+    
+    function handleLogout() { currentUser = null; document.getElementById('dashboardWrapper').style.display = 'none'; document.getElementById('loginSection').style.display = 'flex'; document.getElementById('registrationSection').style.display = 'none'; document.querySelectorAll('.float-btn-remove').forEach(el => el.remove()); }
+    
+    // ======================== AGENT REGISTRATION + RAZORPAY ========================
+    function validateRegForm() {
+        let name = document.getElementById('fullName').value.trim();
+        let email = document.getElementById('regEmail').value.trim();
+        let mobile = document.getElementById('mobile').value.trim();
+        let pwd = document.getElementById('regPassword').value;
+        let confirm = document.getElementById('confirmPassword').value;
+        if(!name) { showToast("Full name required", true); return false; }
+        if(!email || !/^\S+@\S+\.\S+$/.test(email)) { showToast("Valid email required", true); return false; }
+        if(!mobile || !/^\d{10}$/.test(mobile)) { showToast("10-digit mobile required", true); return false; }
+        if(!pwd || pwd.length < 6) { showToast("Password min 6 chars", true); return false; }
+        if(pwd !== confirm) { showToast("Passwords do not match", true); return false; }
+        if(isEmailRegistered(email)) { showToast("Email already registered as agent. Please login.", true); return false; }
+        return true;
+    }
+    
+    function initiatePayment(agentData) {
+        if(typeof Razorpay === 'undefined') { showToast("Simulating payment for demo...", false); setTimeout(() => { simulatePaymentSuccess(agentData); }, 800); return; }
+        const options = { key: "rzp_test_YourTestKeyHere", amount: 1000 * 100, currency: "INR", name: "Tax2Free Consultancy", description: "Agent Registration Fee", handler: function(response) { registerAgent(agentData, response.razorpay_payment_id); }, prefill: { name: agentData.fullName, email: agentData.email, contact: agentData.mobile }, theme: { color: "#ffb347" }, modal: { ondismiss: () => showToast("Payment cancelled", true) } };
+        const rzp = new Razorpay(options); rzp.open();
+    }
+    
+    function simulatePaymentSuccess(agentData) { registerAgent(agentData, 'SIM_' + Math.random().toString(36).substr(2, 8)); }
+    
+    function registerAgent(agentData, paymentId) {
+        const newAgent = { ...agentData, paymentId, paymentStatus: 'completed', amountPaid: 1000, registeredAt: new Date().toISOString(), status: 'active', totalLeads: 0, commissionEarned: 0 };
+        registeredAgents.push(newAgent); saveAgents();
+        showToast(`✅ Registration Successful! Welcome ${agentData.fullName}. Payment ID: ${paymentId}`, false);
+        document.getElementById('agentRegForm').reset();
+        setTimeout(() => { if(confirm("Registration complete! Go to login page?")) { document.getElementById('registrationSection').style.display = 'none'; document.getElementById('loginSection').style.display = 'flex'; } }, 1200);
+    }
+    
+    function handleRegistrationClick() { if(validateRegForm()) { const agentData = { fullName: document.getElementById('fullName').value.trim(), email: document.getElementById('regEmail').value.trim(), mobile: document.getElementById('mobile').value.trim(), city: document.getElementById('city').value.trim(), language: document.getElementById('language').value, password: btoa(document.getElementById('regPassword').value), referralCode: document.getElementById('referralCode').value.trim(), bankAccount: document.getElementById('bankAccount').value.trim() || 'Not provided' }; initiatePayment(agentData); } }
+    
+    // UI Toggles
+    document.getElementById('showRegBtn')?.addEventListener('click', () => { document.getElementById('loginSection').style.display = 'none'; document.getElementById('registrationSection').style.display = 'flex'; });
+    document.getElementById('showLoginFromRegBtn')?.addEventListener('click', () => { document.getElementById('registrationSection').style.display = 'none'; document.getElementById('loginSection').style.display = 'flex'; });
+    document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
+    document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+    document.getElementById('payAndRegisterBtn')?.addEventListener('click', handleRegistrationClick);
+    document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    
+    // final initializers
+    document.getElementById('dashboardWrapper').style.display = 'none';
+    document.getElementById('registrationSection').style.display = 'none';
+</script>
+</body>
+</html>
